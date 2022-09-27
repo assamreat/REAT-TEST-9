@@ -71,7 +71,7 @@ export const createAppeal = (formData, history) => async (dispatch) => {
             type: CREATE_APPEAL,
             payload: res.data,
         });
-        history.push('/appellant/dashboard');
+        history.push(`/appellant/appeals/${res.data.id}/payment`);
     } catch (err) {
         dispatch({
             type: APPEAL_ERROR,

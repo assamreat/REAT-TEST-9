@@ -1,3 +1,7 @@
 node_modules
-keys.js
+dev.js
 /data
+
+.env
+.env.production
+.env.development

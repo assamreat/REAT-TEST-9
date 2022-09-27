@@ -16,6 +16,7 @@ const PDFDocument = require('pdfkit');
 //  Model
 const Appeal = require('../../models/Appeal');
 const AppealState = require('../../models/AppealState');
+const Payment = require('../../models/Payment');
 
 // @route Post api/appellant/appeals
 // @desc  Create an  Appeal
@@ -140,14 +141,21 @@ router.post('/appeals', validateInputAppeal, auth, async (req, res) => {
         await appeal.save();
 
         const appealState = AppealState.build({
-            appellant: 0,
-            receptionist: 1,
+            appellant: 1,
+            receptionist: 0,
             registrar: 0,
             bench: 0,
             appealId: appeal.id,
         });
 
         await appealState.save();
+
+        const payment = Payment.build({
+            status: 0,
+            appealId: appeal.id,
+        });
+
+        await payment.save();
 
         res.json(appeal);
     } catch (err) {

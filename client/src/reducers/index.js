@@ -5,6 +5,7 @@ import appeal from './appeal';
 import errors from './errors';
 import checklist from './checklist';
 import files from './files';
+import payment from './payment';
 
 export default combineReducers({
     auth: auth,
@@ -13,4 +14,5 @@ export default combineReducers({
     errors: errors,
     checklist: checklist,
     files: files,
+    payment: payment,
 });

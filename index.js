@@ -33,6 +33,7 @@ const AppealState = require('./models/AppealState');
 const Checklist = require('./models/Checklist');
 const AppealDoc = require('./models/AppealDoc');
 const RevertedAppeal = require('./models/RevertedAppeal');
+const Payment = require('./models/Payment');
 
 // Init Middleware
 app.use(express.json({ extended: false }));
@@ -52,6 +53,7 @@ const receptionistRoutes = require('./routes/officials/receptionistRoutes');
 const registrarRoutes = require('./routes/officials/registrarRoutes');
 const uploadRoutes = require('./routes/officials/uploadRoutes');
 const downloadRoutes = require('./routes/officials/downloadRoutes');
+const paymentRoutes = require('./routes/appellants/paymentRoutes');
 
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
@@ -61,6 +63,7 @@ app.use('/api/receptionist', receptionistRoutes);
 app.use('/api/registrar', registrarRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/download', downloadRoutes);
+app.use('/api/appellant/appeals', paymentRoutes);
 
 // Define PORT
 const PORT = process.env.PORT || 5000;
@@ -80,6 +83,9 @@ Appeal.hasOne(AppealDoc);
 
 RevertedAppeal.belongsTo(Appeal, { constraints: true, onDelete: 'CASCADE' });
 Appeal.hasOne(RevertedAppeal);
+
+Payment.belongsTo(Appeal, { constraints: true, onDelete: 'CASCADE' });
+Appeal.hasOne(Payment);
 
 sequelize
     // .sync({ force: true })
