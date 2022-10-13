@@ -16,6 +16,24 @@ const AppealItem = ({ appeal: { id, fullname, res_fullname } }) => {
                     view
                 </Link>
             </td>
+            <td>
+                <Link
+                    to={`/appellant/appeals/${id}/paymentstatus`}
+                    className="text-primary"
+                    style={{ fontSize: '1rem', padding: '0 .2rem' }}
+                >
+                    check payment status &raquo;
+                </Link>
+            </td>
+            <td>
+                <Link
+                    to={`/appellant/appeals/${id}/payment`}
+                    className="text-primary"
+                    style={{ fontSize: '1rem', padding: '0 .2rem' }}
+                >
+                    view &raquo;
+                </Link>
+            </td>
         </tr>
     );
 };

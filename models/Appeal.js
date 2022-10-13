@@ -201,7 +201,7 @@ const Appeal = sequelize.define(
             allowNull: false,
         },
     },
-    { timestamps: false }
+    { initialAutoIncrement: 100001, timestamps: false }
 );
 
 module.exports = Appeal;

@@ -8,7 +8,7 @@ const AppealShow = ({ appellantGetAppeal, match, appeal: { appeal } }) => {
     useEffect(() => {
         const { id } = match.params;
         appellantGetAppeal(id);
-    }, [appellantGetAppeal, match.params]);
+    }, []);
     return !appeal ? (
         <div>loading</div>
     ) : (

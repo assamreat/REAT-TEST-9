@@ -32,5 +32,7 @@ export const GET_APPEAL_APPELLANT = 'GET_APPEAL_APPELLANT';
 export const UPLOAD_FILE = 'UPLOAD_FILE';
 export const GET_FILE = 'GET_FILE';
 export const FILE_ERROR = 'FILE_ERROR';
+export const CREATE_PAYMENT = 'CREATE_PAYMENT';
+export const PAYMENT_STATUS = 'PAYMENT_STATUS';
 export const GET_PAYMENT = 'GET_PAYMENT';
 export const PAYMENT_ERROR = 'PAYMENT_ERROR';

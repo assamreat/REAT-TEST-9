@@ -1,5 +1,6 @@
 import Dashboard from '../../components/appellant/Dashboard';
 import AppealShow from '../../components/appellant/AppealShow';
+import PaymentStatus from '../../components/appellant/PaymentStatus';
 
 const routes = [
     { path: '/appellant/dashboard', exact: true, name: 'Appellant' },
@@ -22,6 +23,12 @@ const routes = [
         exact: true,
         name: 'AppealShow',
         component: AppealShow,
+    },
+    {
+        path: '/appellant/appeals/:id/paymentstatus',
+        exact: true,
+        name: 'PaymentStatus',
+        component: PaymentStatus,
     },
 ];
 

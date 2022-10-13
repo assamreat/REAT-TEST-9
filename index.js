@@ -67,7 +67,7 @@ app.use('/api/receptionist', receptionistRoutes);
 app.use('/api/registrar', registrarRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/download', downloadRoutes);
-app.use('/api/appellant/appeals', paymentRoutes);
+app.use('/payment', paymentRoutes);
 
 // Define PORT
 const PORT = process.env.PORT || 5000;
@@ -89,7 +89,7 @@ RevertedAppeal.belongsTo(Appeal, { constraints: true, onDelete: 'CASCADE' });
 Appeal.hasOne(RevertedAppeal);
 
 Payment.belongsTo(Appeal, { constraints: true, onDelete: 'CASCADE' });
-Appeal.hasOne(Payment);
+Appeal.hasMany(Payment);
 
 if (process.env.NODE_ENV === 'production') {
     // Express will serve up production assets

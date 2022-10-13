@@ -4,14 +4,16 @@ const sequelize = require('../util/database');
 
 const Payment = sequelize.define('payment', {
     order_id: {
-        type: Sequelize.INTEGER,
-        autoIncrement: true,
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
+        // type: Sequelize.INTEGER(6).ZEROFILL,
+        // autoIncrement: true,
         allowNull: false,
         primaryKey: true,
     },
 
     status: {
-        type: Sequelize.BOOLEAN,
+        type: Sequelize.STRING,
         allowNull: false,
     },
 });

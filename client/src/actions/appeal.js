@@ -11,7 +11,6 @@ import {
     GET_APPEALS_APPELLANT,
     GET_APPEAL_APPELLANT,
     REVERT_APPEAL,
-    SET_ALERT,
 } from './types';
 
 // Get List of Appeals with Receptionist
