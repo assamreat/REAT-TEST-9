@@ -69,6 +69,11 @@ app.use('/api/upload', uploadRoutes);
 app.use('/api/download', downloadRoutes);
 app.use('/payment', paymentRoutes);
 
+// Payment double verification query
+// const queryApi = require('./util/queryApi');
+// 900000 ms = 15 min
+// setInterval(queryApi, 900000);
+
 // Define PORT
 const PORT = process.env.PORT || 5000;
 

@@ -244,6 +244,15 @@ router.post('/fail', async (req, res) => {
     res.redirect('/appellant/dashboard');
 });
 
+// @route POST payment/paygov/response
+// @desc  POST push response from NSDL
+// @access Public
+router.post('/paygov/response', (req, res) => {
+    console.log('paygov push response hit');
+    console.log(req.body);
+    res.send('req.body.msg');
+});
+
 // @route GET payment/:id
 // @desc  Get payment data
 // @access Private
