@@ -2,11 +2,17 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const AppealItem = ({ appeal: { id, fullname, res_fullname } }) => {
+    const appellantName =
+        fullname.length < 25 ? fullname : fullname.slice(0, 25) + '...';
+    const respondenttName =
+        res_fullname.length < 25
+            ? res_fullname
+            : res_fullname.slice(0, 25) + '...';
     return (
         <tr>
             <td>{id}</td>
-            <td>{`${fullname} `}</td>
-            <td>{`${res_fullname} `}</td>
+            <td>{`${appellantName} `}</td>
+            <td>{`${respondenttName} `}</td>
             <td>
                 <Link
                     to={`/appellant/appeals/${id}`}

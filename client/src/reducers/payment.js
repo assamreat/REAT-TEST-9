@@ -2,6 +2,7 @@ import {
     GET_PAYMENT,
     CREATE_PAYMENT,
     PAYMENT_STATUS,
+    CLEAR_PAYMENT,
     PAYMENT_ERROR,
 } from '../actions/types';
 
@@ -24,6 +25,9 @@ export default function (state = {}, action) {
 
         case PAYMENT_ERROR:
             return { ...state, error: payload };
+
+        case CLEAR_PAYMENT:
+            return { ...state, status: {} };
 
         default:
             return state;

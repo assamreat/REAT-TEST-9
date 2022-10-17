@@ -35,4 +35,5 @@ export const FILE_ERROR = 'FILE_ERROR';
 export const CREATE_PAYMENT = 'CREATE_PAYMENT';
 export const PAYMENT_STATUS = 'PAYMENT_STATUS';
 export const GET_PAYMENT = 'GET_PAYMENT';
+export const CLEAR_PAYMENT = 'CLEAR_PAYMENT';
 export const PAYMENT_ERROR = 'PAYMENT_ERROR';

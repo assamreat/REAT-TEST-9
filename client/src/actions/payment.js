@@ -3,6 +3,7 @@ import {
     GET_PAYMENT,
     CREATE_PAYMENT,
     PAYMENT_STATUS,
+    CLEAR_PAYMENT,
     PAYMENT_ERROR,
 } from './types';
 
@@ -61,4 +62,8 @@ export const getPayment = (id) => async (dispatch) => {
             },
         });
     }
+};
+
+export const clearPaymentStatus = () => (dispatch) => {
+    dispatch({ type: CLEAR_PAYMENT });
 };

@@ -1,13 +1,19 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { getAppealsAppellant } from '../../actions/appeal';
+import { clearPaymentStatus } from '../../actions/payment';
 
 import AppealItem from './AppealItem';
 
-const Dashboard = ({ getAppealsAppellant, appeal: { appeals, loading } }) => {
+const Dashboard = ({
+    getAppealsAppellant,
+    appeal: { appeals, loading },
+    clearPaymentStatus,
+}) => {
     useEffect(() => {
+        clearPaymentStatus();
         getAppealsAppellant();
-    }, [getAppealsAppellant]);
+    }, []);
     return loading ? (
         <div>loading</div>
     ) : (
@@ -60,4 +66,7 @@ const mapStateToProps = (state) => {
     return { appeal: state.appeal };
 };
 
-export default connect(mapStateToProps, { getAppealsAppellant })(Dashboard);
+export default connect(mapStateToProps, {
+    getAppealsAppellant,
+    clearPaymentStatus,
+})(Dashboard);

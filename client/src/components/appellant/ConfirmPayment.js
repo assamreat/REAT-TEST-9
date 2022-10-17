@@ -1,28 +1,38 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
+import { appellantGetAppeal } from '../../actions/appeal';
 import { createOrder, paymentStatus, getPayment } from '../../actions/payment';
 
 const ConfirmPayment = ({
+    appellantGetAppeal,
     createOrder,
     paymentStatus,
     getPayment,
     match,
     payment: { payment, order, status },
+    appeal: { appeal },
 }) => {
     const { id } = match.params;
     useEffect(() => {
+        appellantGetAppeal(id);
         paymentStatus(id);
-        createOrder(id);
-        getPayment(id);
+        (async () => {
+            await createOrder(id);
+            getPayment(id);
+        })();
     }, []);
 
-    if (!order || !payment) {
+    if (!order || !payment || !appeal) {
         return <div>Loading</div>;
     }
 
-    if (status && (status.status === 'S' || status.status === 'P')) {
+    if (
+        status &&
+        (status.status === 'S' || status.status === 'P') &&
+        status.appealId === id
+    ) {
         return <Redirect to={`/appellant/appeals/${id}/paymentstatus`} />;
     }
 
@@ -61,7 +71,7 @@ const ConfirmPayment = ({
                             className="my-5 mx-5 text-center"
                             style={{ fontSize: '30px' }}
                         >
-                            Continue to Payment
+                            Assam Real Estate Appellate Tribunal
                         </p>
                         <div className="row">
                             <ul className="list-unstyled">
@@ -78,6 +88,29 @@ const ConfirmPayment = ({
                                     Guwahati-781036
                                 </li>
                             </ul>
+                            <hr />
+                            <div className="col-xl-10">
+                                <p>Appeal ID</p>
+                            </div>
+                            <div className="col-xl-2">
+                                <p className="float-end">{appeal.id}</p>
+                            </div>
+                            <hr />
+                            <div className="col-xl-4">
+                                <p>Appellant Name</p>
+                            </div>
+                            <div className="col-xl-8">
+                                <p className="float-end">{appeal.fullname}</p>
+                            </div>
+                            <hr />
+                            <div className="col-xl-4">
+                                <p>Respondent Name</p>
+                            </div>
+                            <div className="col-xl-8">
+                                <p className="float-end">
+                                    {appeal.res_fullname}
+                                </p>
+                            </div>
                             <hr />
                             <div className="col-xl-10">
                                 <p>Appeal Fee</p>
@@ -102,134 +135,137 @@ const ConfirmPayment = ({
                             </div>
                             <hr style={{ border: '2px solid black' }} />
                         </div>
-                        <div
-                            className="text-center"
-                            style={{ marginTop: '90px' }}
-                        >
-                            <form
-                                action="https://pilot.surepay.ndml.in/SurePayPayment/sp/processRequest"
-                                method="post"
+                        <div className="row">
+                            <div className="col-md-10"></div>
+                            <div
+                                className="col-md-2 text-center"
+                                style={{ marginTop: '50px' }}
                             >
-                                <input
-                                    readOnly
-                                    hidden
-                                    type="text"
-                                    name="messageType"
-                                    value={payment.messageType}
-                                ></input>
-                                <input
-                                    readOnly
-                                    hidden
-                                    type="text"
-                                    name="merchantId"
-                                    value={payment.merchantId}
-                                ></input>
-                                <input
-                                    readOnly
-                                    hidden
-                                    type="text"
-                                    name="serviceId"
-                                    value={payment.serviceId}
-                                ></input>
-                                <input
-                                    readOnly
-                                    hidden
-                                    type="text"
-                                    name="orderId"
-                                    value={payment.orderId}
-                                ></input>
-                                <input
-                                    readOnly
-                                    hidden
-                                    type="text"
-                                    name="customerId"
-                                    value={payment.customerId}
-                                ></input>
-                                <input
-                                    readOnly
-                                    hidden
-                                    type="text"
-                                    name="transactionAmount"
-                                    value={payment.transactionAmount}
-                                ></input>
-                                <input
-                                    readOnly
-                                    hidden
-                                    type="text"
-                                    name="currencyCode"
-                                    value={payment.currencyCode}
-                                ></input>
-                                <input
-                                    readOnly
-                                    hidden
-                                    type="text"
-                                    name="requestDateTime"
-                                    value={payment.requestDateTime}
-                                ></input>
-                                <input
-                                    readOnly
-                                    hidden
-                                    type="text"
-                                    name="successUrl"
-                                    value={payment.successUrl}
-                                ></input>
-                                <input
-                                    readOnly
-                                    hidden
-                                    type="text"
-                                    name="failUrl"
-                                    value={payment.failUrl}
-                                ></input>
-                                <input
-                                    readOnly
-                                    hidden
-                                    type="text"
-                                    name="additionalField1"
-                                    value={payment.additionalField1}
-                                ></input>
-                                <input
-                                    readOnly
-                                    hidden
-                                    type="text"
-                                    name="additionalField2"
-                                    value={payment.additionalField2}
-                                ></input>
-                                <input
-                                    readOnly
-                                    hidden
-                                    type="text"
-                                    name="additionalField3"
-                                    value={payment.additionalField3}
-                                ></input>
-                                <input
-                                    readOnly
-                                    hidden
-                                    type="text"
-                                    name="additionalField4"
-                                    value={payment.additionalField4}
-                                ></input>
-                                <input
-                                    readOnly
-                                    hidden
-                                    type="text"
-                                    name="additionalField5"
-                                    value={payment.additionalField5}
-                                ></input>
-                                <input
-                                    readOnly
-                                    hidden
-                                    type="text"
-                                    name="checksum"
-                                    value={payment.checksum}
-                                ></input>
-                                {/* ============================ */}
-                                <input
-                                    readOnly
-                                    type="submit"
-                                    className="btn btn-primary text-uppercase"
-                                    value="Continue to Payment"
-                                ></input>
-                            </form>
+                                <form
+                                    action="https://pilot.surepay.ndml.in/SurePayPayment/sp/processRequest"
+                                    method="post"
+                                >
+                                    <input
+                                        readOnly
+                                        hidden
+                                        type="text"
+                                        name="messageType"
+                                        value={payment.messageType}
+                                    ></input>
+                                    <input
+                                        readOnly
+                                        hidden
+                                        type="text"
+                                        name="merchantId"
+                                        value={payment.merchantId}
+                                    ></input>
+                                    <input
+                                        readOnly
+                                        hidden
+                                        type="text"
+                                        name="serviceId"
+                                        value={payment.serviceId}
+                                    ></input>
+                                    <input
+                                        readOnly
+                                        hidden
+                                        type="text"
+                                        name="orderId"
+                                        value={payment.orderId}
+                                    ></input>
+                                    <input
+                                        readOnly
+                                        hidden
+                                        type="text"
+                                        name="customerId"
+                                        value={payment.customerId}
+                                    ></input>
+                                    <input
+                                        readOnly
+                                        hidden
+                                        type="text"
+                                        name="transactionAmount"
+                                        value={payment.transactionAmount}
+                                    ></input>
+                                    <input
+                                        readOnly
+                                        hidden
+                                        type="text"
+                                        name="currencyCode"
+                                        value={payment.currencyCode}
+                                    ></input>
+                                    <input
+                                        readOnly
+                                        hidden
+                                        type="text"
+                                        name="requestDateTime"
+                                        value={payment.requestDateTime}
+                                    ></input>
+                                    <input
+                                        readOnly
+                                        hidden
+                                        type="text"
+                                        name="successUrl"
+                                        value={payment.successUrl}
+                                    ></input>
+                                    <input
+                                        readOnly
+                                        hidden
+                                        type="text"
+                                        name="failUrl"
+                                        value={payment.failUrl}
+                                    ></input>
+                                    <input
+                                        readOnly
+                                        hidden
+                                        type="text"
+                                        name="additionalField1"
+                                        value={payment.additionalField1}
+                                    ></input>
+                                    <input
+                                        readOnly
+                                        hidden
+                                        type="text"
+                                        name="additionalField2"
+                                        value={payment.additionalField2}
+                                    ></input>
+                                    <input
+                                        readOnly
+                                        hidden
+                                        type="text"
+                                        name="additionalField3"
+                                        value={payment.additionalField3}
+                                    ></input>
+                                    <input
+                                        readOnly
+                                        hidden
+                                        type="text"
+                                        name="additionalField4"
+                                        value={payment.additionalField4}
+                                    ></input>
+                                    <input
+                                        readOnly
+                                        hidden
+                                        type="text"
+                                        name="additionalField5"
+                                        value={payment.additionalField5}
+                                    ></input>
+                                    <input
+                                        readOnly
+                                        hidden
+                                        type="text"
+                                        name="checksum"
+                                        value={payment.checksum}
+                                    ></input>
+                                    {/* ============================ */}
+                                    <input
+                                        readOnly
+                                        type="submit"
+                                        className="btn btn-primary text-uppercase"
+                                        value="Pay now"
+                                    ></input>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -239,10 +275,11 @@ const ConfirmPayment = ({
 };
 
 const mapStateToProps = (state) => {
-    return { payment: state.payment };
+    return { payment: state.payment, appeal: state.appeal };
 };
 
 export default connect(mapStateToProps, {
+    appellantGetAppeal,
     createOrder,
     paymentStatus,
     getPayment,

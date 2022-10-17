@@ -16,6 +16,15 @@ const auth = require('../../middleware/auth');
 // @desc create orderId
 // @access Private
 router.get('/createOrder/:appealId', auth, async (req, res) => {
+    // check for appealId: if the appeal belongs to the logged in user
+    const appeal = await Appeal.findOne({
+        where: { id: req.params.appealId },
+    });
+
+    if (appeal.appellantId !== req.user.id) {
+        return res.status(400).json({ msg: 'No such appeal' });
+    }
+
     const payment = await Payment.findAll({
         where: { appealId: req.params.appealId },
     });
@@ -33,13 +42,6 @@ router.get('/createOrder/:appealId', auth, async (req, res) => {
             payment.status === 'S'
         );
     });
-
-    // console.log('=================');
-    // console.log(paymentArray);
-    // console.log('Pending payment ===>');
-    // console.log(pendingPaymentArr);
-    // console.log(pendingPaymentArr.length);
-    // console.log('=================');
 
     if (orderCreatedArr.length === 0) {
         // create orderID
@@ -60,6 +62,16 @@ router.get('/createOrder/:appealId', auth, async (req, res) => {
 // @desc check status of payment
 // @access Private
 router.get('/checkStatus/:appealId', auth, async (req, res) => {
+    // check for appealId: if the appeal belongs to the logged in user
+    const appeal = await Appeal.findOne({
+        where: { id: req.params.appealId },
+    });
+
+    if (appeal.appellantId !== req.user.id) {
+        return res.status(400).json({ msg: 'No such appeal' });
+    }
+
+    // check status
     const payment = await Payment.findAll({
         where: { appealId: req.params.appealId },
     });
@@ -112,7 +124,7 @@ router.get('/checkStatus/:appealId', auth, async (req, res) => {
     // console.log(pendingPaymentArr.length);
     // console.log('=================');
 
-    res.json(pendingPaymentArr[0]);
+    res.json(pendingPayment[0]);
 });
 
 // @route POST payment/success
@@ -259,7 +271,7 @@ router.post('/paygov/response', (req, res) => {
 router.get('/fetchData/:id', auth, async (req, res) => {
     try {
         const payment = await Payment.findOne({
-            where: { appealId: req.params.id },
+            where: { appealId: req.params.id, status: 'I' },
         });
 
         const orderId = payment.get({ plain: true }).order_id;
@@ -308,8 +320,6 @@ router.get('/fetchData/:id', auth, async (req, res) => {
 
         // generate message
         const message = `${messageType}|${merchantId}|${serviceId}|${orderId}|${customerId}|${transactionAmount}|${currencyCode}|${requestDateTime}|${successUrl}|${failUrl}|${additionalField1}|${additionalField2}|${additionalField3}|${additionalField4}|${additionalField5}`;
-        console.log('=====================================');
-        console.log(message);
 
         // generate checksum
         const generateCRC32Checksum = (message, secretKey) => {

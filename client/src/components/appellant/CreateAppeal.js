@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createAppeal } from '../../actions/appeal';
+import { clearPaymentStatus } from '../../actions/payment';
 
 import CreateAppealDetails from './CreateAppealDetails';
 import CreateAppealConfirm from './CreateAppealConfirm';
 import './CreateAppeal.css';
 
-const FormC = ({ createAppeal, history }) => {
+const FormC = ({ createAppeal, history, clearPaymentStatus }) => {
+    useEffect(() => {
+        clearPaymentStatus();
+    }, []);
     const [step, setStep] = useState(1);
     const [formData, setFormData] = useState({
         fullname: '',
@@ -105,4 +109,6 @@ const FormC = ({ createAppeal, history }) => {
     }
 };
 
-export default connect(null, { createAppeal })(withRouter(FormC));
+export default connect(null, { createAppeal, clearPaymentStatus })(
+    withRouter(FormC)
+);
