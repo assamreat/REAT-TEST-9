@@ -181,28 +181,65 @@ router.post('/success', async (req, res) => {
         CheckSum,
     };
 
-    await Payment.update(
-        {
-            status: SuccessFlag,
-        },
-        {
-            where: {
-                order_id: OrderId,
-            },
-        }
-    );
+    // Checksum validation
 
-    await AppealState.update(
-        {
-            appellant: 0,
-            receptionist: 1,
-            registrar: 0,
-            bench: 0,
-        },
-        {
-            where: { appealId: CustomerId },
-        }
-    );
+    const secretKey = process.env.NSDL_KEY;
+    // generate message
+    const message = successMsgArr.slice(0, -1).join('|');
+
+    // generate checksum
+    const generateCRC32Checksum = (message, secretKey) => {
+        const msg = message + '|' + secretKey;
+
+        // get bytes array
+        const enc = new TextEncoder();
+        const bytesArray = enc.encode(msg);
+
+        const checksum = CRC32.buf(bytesArray, 0, bytesArray.length) >>> 0;
+
+        return checksum;
+    };
+
+    const checksumMerchant = generateCRC32Checksum(message, secretKey);
+
+    if (checksumMerchant.toString() === CheckSum) {
+        // update payment table
+        await Payment.update(
+            {
+                status: SuccessFlag,
+            },
+            {
+                where: {
+                    order_id: OrderId,
+                },
+            }
+        );
+
+        // forward the appeal to receptionist - update appealState
+        await AppealState.update(
+            {
+                appellant: 0,
+                receptionist: 1,
+                registrar: 0,
+                bench: 0,
+            },
+            {
+                where: { appealId: CustomerId },
+            }
+        );
+    } else {
+        // update payment with failed status
+        await Payment.update(
+            {
+                status: 'F',
+            },
+            {
+                where: {
+                    order_id: OrderId,
+                },
+            }
+        );
+    }
 
     res.redirect('/appellant/dashboard');
 });
