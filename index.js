@@ -41,6 +41,7 @@ const Payment = require('./models/Payment');
 
 // Init Middleware
 app.use(express.json({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(
     multer({ storage: fileStorage, fileFilter: fileFilter }).single('file')
 );
