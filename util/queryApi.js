@@ -48,7 +48,22 @@ const queryApi = async () => {
 
             try {
                 const res = await axios.post(queryApiUrl, data, config);
-                console.log(res);
+                const msg = res.data;
+
+                const msgArr = msg.split('|');
+
+                const statusFlag = msgArr[0];
+
+                await Payment.update(
+                    {
+                        status: statusFlag,
+                    },
+                    {
+                        where: {
+                            order_id: orderId,
+                        },
+                    }
+                );
             } catch (err) {
                 console.log(err);
             }
