@@ -1,6 +1,5 @@
 import ReceptionistPanel from '../../components/official/receptionist/ReceptionistPanel';
 import AppealShow from '../../components/official/receptionist/AppealShow';
-import UploadDoc from '../../components/official/receptionist/UploadDoc';
 import AppealForward from '../../components/official/receptionist/AppealForward';
 
 const routes = [
@@ -24,12 +23,6 @@ const routes = [
         exact: true,
         name: 'AppealShow',
         component: AppealShow,
-    },
-    {
-        path: '/official/receptionist/appeals/:id/upload',
-        exact: true,
-        name: 'UploadDoc',
-        component: UploadDoc,
     },
     {
         path: '/official/receptionist/appeals/:id/forward',

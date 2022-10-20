@@ -263,7 +263,6 @@ const CreateAppealDetails = ({
         res_as_country,
         res_mobile_no,
         res_email_id,
-        is_within_jurisdiction,
         reg_num,
         is_limitation_specified,
         reason_for_delay,
@@ -760,22 +759,11 @@ const CreateAppealDetails = ({
                 <div className="ca_div question">
                     <div className="ca_div question-answer checkbox-item">
                         <div className="ca_div">
-                            <input
-                                className="ca_input"
-                                type="checkbox"
-                                id="check_3"
-                                name="is_within_jurisdiction"
-                                value={is_within_jurisdiction}
-                                checked={is_within_jurisdiction}
-                                onChange={(e) => handleCheck(e)}
-                            />
-                            <label htmlFor="check_3" className="check">
-                                <span>
-                                    The appellant declares that the subject
-                                    matter of the appeal falls within the
-                                    jurisdiction of the Appellate Tribunal
-                                </span>
-                            </label>
+                            <p>
+                                The appellant declares that the subject matter
+                                of the appeal falls within the jurisdiction of
+                                the Appellate Tribunal
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -933,27 +921,39 @@ const CreateAppealDetails = ({
                     9. Matter not pending with any other court, etc:
                 </h5>
                 <div className="ca_div question">
-                    <div className="ca_div question-answer checkbox-item">
-                        <div>
-                            <input
-                                className="ca_input"
-                                type="checkbox"
-                                id="check_9"
-                                name="is_matter_pending"
-                                value={is_matter_pending}
-                                checked={is_matter_pending}
-                                onChange={(e) => handleCheck(e)}
-                            />
-                            <label htmlFor="check_9" className="check">
-                                <span>
-                                    The appellant further declares that the
-                                    matter regarding which this appeal has been
-                                    made, is not pending before any court of law
-                                    or any other authority or any other
-                                    Tribunal(s).
-                                </span>
-                            </label>
-                        </div>
+                    <p>
+                        The appellant further declares that the matter regarding
+                        which this appeal has been made, is not pending before
+                        any court of law or any other authority or any other
+                        Tribunal(s).<span className="required">*</span>
+                    </p>
+                    <div className="question-answer">
+                        <input
+                            className="ca_input"
+                            type="radio"
+                            value="1"
+                            id="is_matter_pending1"
+                            name="is_matter_pending"
+                            checked={is_matter_pending === '1'}
+                            onChange={(e) => onChange(e)}
+                            required
+                        />
+                        <label htmlFor="is_matter_pending1" className="radio">
+                            <span>Not Pending</span>
+                        </label>
+                        <input
+                            className="ca_input"
+                            type="radio"
+                            value="0"
+                            id="is_matter_pending0"
+                            name="is_matter_pending"
+                            checked={is_matter_pending === '0'}
+                            onChange={(e) => onChange(e)}
+                            required
+                        />
+                        <label htmlFor="is_matter_pending0" className="radio">
+                            <span>Pending</span>
+                        </label>
                     </div>
                 </div>
 

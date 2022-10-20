@@ -4,21 +4,21 @@ const router = express.Router();
 const fs = require('fs');
 
 // Model
-const AppealDoc = require('../../models/AppealDoc');
+const Appeal = require('../../models/Appeal');
 
 // @route POST api/download/:id
 // @desc  Download files for an appeal
 // @access Private
 router.get('/:id', async (req, res) => {
     try {
-        const docURL = await AppealDoc.findOne({
-            attributes: ['docURL'],
+        const docURL = await Appeal.findOne({
+            attributes: ['docUrl'],
             where: {
-                appealId: req.params.id,
+                id: req.params.id,
             },
         });
 
-        const filePath = docURL.get({ plain: true }).docURL;
+        const filePath = docURL.get({ plain: true }).docUrl;
 
         // fs.readFile(filePath, (err, data) => {
         //     if (err) {

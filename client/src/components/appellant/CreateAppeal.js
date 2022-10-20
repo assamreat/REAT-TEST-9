@@ -1,10 +1,13 @@
+import _ from 'lodash';
 import React, { useState, useEffect } from 'react';
+import ReactLoading from 'react-loading';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createAppeal } from '../../actions/appeal';
 import { clearPaymentStatus } from '../../actions/payment';
 
 import CreateAppealDetails from './CreateAppealDetails';
+import CreateAppealFileUpload from './CreateAppealFileUpload';
 import CreateAppealConfirm from './CreateAppealConfirm';
 import './CreateAppeal.css';
 
@@ -12,6 +15,8 @@ const FormC = ({ createAppeal, history, clearPaymentStatus }) => {
     useEffect(() => {
         clearPaymentStatus();
     }, []);
+
+    const [isLoading, setIsLoading] = useState(false);
     const [step, setStep] = useState(1);
     const [formData, setFormData] = useState({
         fullname: '',
@@ -63,6 +68,9 @@ const FormC = ({ createAppeal, history, clearPaymentStatus }) => {
         is_matter_pending: true,
     });
 
+    const [fileData, setFileData] = useState();
+    const [filename, setFilename] = useState('Choose a file');
+
     // Proceed to next step
     const nextStep = () => {
         setStep(step + 1);
@@ -81,10 +89,24 @@ const FormC = ({ createAppeal, history, clearPaymentStatus }) => {
         setFormData({ ...formData, [e.target.name]: e.target.checked });
     };
 
+    // on change handler for Files
+    const onFileChange = (e) => {
+        setFileData(e.target.files[0]);
+        setFilename(e.target.files[0].name);
+    };
+
     const onSubmit = (e) => {
         e.preventDefault();
 
-        createAppeal(formData, history);
+        setIsLoading(true);
+
+        const data = new FormData();
+        _.mapKeys(formData, (value, key) => {
+            data.append(key, value);
+        });
+        data.append('file', fileData);
+
+        createAppeal(data, history);
     };
 
     switch (step) {
@@ -98,7 +120,31 @@ const FormC = ({ createAppeal, history, clearPaymentStatus }) => {
                     nextStep={nextStep}
                 />
             );
+
         case 2:
+            return (
+                <CreateAppealFileUpload
+                    fileData={fileData}
+                    filename={filename}
+                    onFileChange={onFileChange}
+                    prevStep={prevStep}
+                    nextStep={nextStep}
+                />
+            );
+        case 3:
+            if (isLoading) {
+                return (
+                    <div className="container text-center">
+                        <ReactLoading
+                            type={'cylon'}
+                            color={'#095484'}
+                            height={'50%'}
+                            width={'50%'}
+                        />
+                    </div>
+                );
+            }
+
             return (
                 <CreateAppealConfirm
                     prevStep={prevStep}

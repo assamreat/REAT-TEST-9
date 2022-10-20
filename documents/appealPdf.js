@@ -213,8 +213,7 @@ module.exports = function (pdfDoc, appeal) {
     pdfDoc
         .fontSize(11)
         .text(
-            'a) The appellant declares that the subject matter of the appeal falls within the jurisdiction of the Appellate Tribunal: ' +
-                (appeal.is_within_jurisdiction ? 'Yes' : 'No'),
+            'a) The appellant declares that the subject matter of the appeal falls within the jurisdiction of the Appellate Tribunal: Yes',
             {
                 align: 'left',
             }
@@ -273,14 +272,21 @@ module.exports = function (pdfDoc, appeal) {
             }
         )
         .moveDown(0.5);
-    pdfDoc.fontSize(11).text(appeal.facts_of_case).moveDown(2.0);
+    pdfDoc
+        .fontSize(11)
+        .text(appeal.facts_of_case.replace(/[^ -~]+/g, '\n\n'))
+        .moveDown(2.0);
     pdfDoc
         .fontSize(11)
         .text('6) Grounds of Appeal : ', {
             align: 'left',
         })
         .moveDown(0.5);
-    pdfDoc.fontSize(11).text(appeal.ground_of_appeal).moveDown(2.0);
+
+    pdfDoc
+        .fontSize(11)
+        .text(appeal.ground_of_appeal.replace(/[^ -~]+/g, '\n\n'))
+        .moveDown(2.0);
     pdfDoc
         .fontSize(11)
         .text('7) Relief(s) sought : ', {
@@ -305,7 +311,10 @@ module.exports = function (pdfDoc, appeal) {
             }
         )
         .moveDown(0.5);
-    pdfDoc.fontSize(11).text(appeal.reliefs_sought).moveDown(2.0);
+    pdfDoc
+        .fontSize(11)
+        .text(appeal.reliefs_sought.replace(/[^ -~]+/g, '\n\n'))
+        .moveDown(2.0);
     pdfDoc
         .fontSize(11)
         .text('8) Interim order, if prayed for : ', {
@@ -330,7 +339,10 @@ module.exports = function (pdfDoc, appeal) {
             }
         )
         .moveDown(0.5);
-    pdfDoc.fontSize(11).text(appeal.interim_order).moveDown(2.0);
+    pdfDoc
+        .fontSize(11)
+        .text(appeal.interim_order.replace(/[^ -~]+/g, '\n\n'))
+        .moveDown(2.0);
     pdfDoc
         .fontSize(11)
         .text('9) Matter not pending with any other court, etc. : ', {

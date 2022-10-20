@@ -34,9 +34,17 @@ router.post('/appeals', validateInputAppeal, auth, async (req, res) => {
         return res.status(400).json(errObj);
     }
 
+    // for file upload
+    const doc = req.file;
+
+    if (!doc) {
+        return res.status(422).json({ msg: 'Attached file is not a pdf' });
+    }
+
+    const docUrl = doc.path;
+
     const {
         fullname,
-
         ar_line1,
         ar_line2,
         ar_landmark,
@@ -74,7 +82,6 @@ router.post('/appeals', validateInputAppeal, auth, async (req, res) => {
         res_as_country,
         res_mobile_no,
         res_email_id,
-        is_within_jurisdiction,
         reg_num,
         is_limitation_specified,
         reason_for_delay,
@@ -126,7 +133,6 @@ router.post('/appeals', validateInputAppeal, auth, async (req, res) => {
             res_as_country,
             res_mobile_no,
             res_email_id,
-            is_within_jurisdiction,
             reg_num,
             is_limitation_specified,
             reason_for_delay,
@@ -135,6 +141,7 @@ router.post('/appeals', validateInputAppeal, auth, async (req, res) => {
             reliefs_sought,
             interim_order,
             is_matter_pending,
+            docUrl,
             appellantId,
         });
 

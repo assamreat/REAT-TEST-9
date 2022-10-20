@@ -45,9 +45,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
     multer({ storage: fileStorage, fileFilter: fileFilter }).single('file')
 );
-// app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-// app.get('/', (req, res) => res.send('API IS RUNNING'));
 
 // Define Routes
 const userRoutes = require('./routes/officials/userRoutes');

@@ -211,12 +211,7 @@ const AppealShow = ({ appellantGetAppeal, match, appeal: { appeal } }) => {
                                                     Appellate Tribunal:
                                                 </span>
 
-                                                <span>
-                                                    {' '}
-                                                    {appeal.is_within_jurisdiction
-                                                        ? ' Yes '
-                                                        : ' No'}
-                                                </span>
+                                                <span> Yes</span>
                                             </p>
                                             <p>
                                                 <span className="fw-bold">
@@ -390,14 +385,14 @@ const AppealShow = ({ appellantGetAppeal, match, appeal: { appeal } }) => {
                                                     {' '}
                                                     (i) Amount:
                                                 </span>
-                                                <span>1000</span>
+                                                <span> 1000</span>
                                             </p>
                                             <p>
                                                 <span className="fw-bold">
                                                     {' '}
                                                     (i) Mode:
                                                 </span>
-                                                <span>Debit Card</span>
+                                                <span> Online</span>
                                             </p>
                                         </div>
 

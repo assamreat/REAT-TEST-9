@@ -166,10 +166,6 @@ const Appeal = sequelize.define(
             type: Sequelize.STRING,
             allowNull: false,
         },
-        is_within_jurisdiction: {
-            type: Sequelize.BOOLEAN,
-            allowNull: false,
-        },
         reg_num: {
             type: Sequelize.STRING,
             allowNull: false,
@@ -198,6 +194,11 @@ const Appeal = sequelize.define(
         },
         is_matter_pending: {
             type: Sequelize.BOOLEAN,
+            allowNull: false,
+        },
+
+        docUrl: {
+            type: Sequelize.STRING,
             allowNull: false,
         },
     },

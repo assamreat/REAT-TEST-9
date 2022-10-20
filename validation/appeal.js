@@ -119,7 +119,4 @@ module.exports = [
     body('reliefs_sought', 'Please include relief sought').isLength({
         min: 1,
     }),
-    body('interim_order', 'Please include the interim order').isLength({
-        min: 1,
-    }),
 ];
