@@ -3,6 +3,7 @@ const { Op } = require('sequelize');
 
 // Models
 const Payment = require('../models/Payment');
+const AppealState = require('../models/AppealState');
 
 const queryApi = async () => {
     const username = process.env.NSDL_USERNAME;
@@ -64,6 +65,22 @@ const queryApi = async () => {
                         },
                     }
                 );
+
+                // In case of success payment
+                if (statusFlag === 'S') {
+                    // forward the appeal to receptionist - update appealState
+                    await AppealState.update(
+                        {
+                            appellant: 0,
+                            receptionist: 1,
+                            registrar: 0,
+                            bench: 0,
+                        },
+                        {
+                            where: { appealId: CustomerId },
+                        }
+                    );
+                }
             } catch (err) {
                 console.log(err);
             }
