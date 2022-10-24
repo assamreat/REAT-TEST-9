@@ -57,7 +57,7 @@ const FormC = ({ createAppeal, history, clearPaymentStatus }) => {
         res_as_country: '',
         res_mobile_no: '',
         res_email_id: '',
-        is_within_jurisdiction: true,
+        // is_within_jurisdiction: true,
         reg_num: '',
         is_limitation_specified: true,
         reason_for_delay: '',

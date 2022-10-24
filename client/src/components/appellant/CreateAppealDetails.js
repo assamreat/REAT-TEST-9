@@ -959,7 +959,7 @@ const CreateAppealDetails = ({
 
                 <div className="ca_div btn-block">
                     <button onClick={next} className="ca_button">
-                        Preview
+                        Next
                     </button>
                 </div>
             </div>

@@ -8,6 +8,7 @@ const CreateAppealFileUpload = ({
     onFileChange,
     prevStep,
     nextStep,
+    edit,
 }) => {
     const [fileError, setFileError] = useState('');
 
@@ -24,7 +25,7 @@ const CreateAppealFileUpload = ({
     const validate = (file) => {
         let error = '';
 
-        if (!file) {
+        if (!edit && !file) {
             error = 'No file selected';
         }
 
@@ -95,15 +96,22 @@ const CreateAppealFileUpload = ({
                     <button
                         onClick={prevStep}
                         className="btn btn-outline-secondary mr-3"
+                        style={{
+                            padding: '.5rem 1rem',
+                        }}
                     >
                         Previous
                     </button>
                     <button
                         onClick={next}
                         className="btn "
-                        style={{ background: '#095484', color: '#fff' }}
+                        style={{
+                            background: '#095484',
+                            color: '#fff',
+                            padding: '.5rem 2rem',
+                        }}
                     >
-                        Next Step
+                        Next
                     </button>
                 </div>
             </div>

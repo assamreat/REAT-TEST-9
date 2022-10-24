@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { appellantGetAppeal } from '../../actions/appeal';
+import { Link } from 'react-router-dom';
+
 import axios from 'axios';
 const fileDownload = require('js-file-download');
 
@@ -20,24 +22,34 @@ const AppealShow = ({ appellantGetAppeal, match, appeal: { appeal } }) => {
                     <h6 className="m-0 font-weight-bold text-primary">
                         Details of the Appeal
                     </h6>
-                    <button
-                        className="btn btn-sm btn-primary fw-bold"
-                        onClick={async () => {
-                            const res = await axios.get(
-                                `/api/appellant/appeals/${appeal.id}/printappeal`,
-                                {
-                                    responseType: 'blob',
-                                }
-                            );
+                    <div>
+                        <Link
+                            className="btn btn-sm btn-primary fw-bold mr-3"
+                            to={`/appellant/appeals/${appeal.id}/edit`}
+                        >
+                            <i class="fa-solid fa-pen-to-square"></i> Edit
+                            Appeal
+                        </Link>
+                        <button
+                            className="btn btn-sm btn-primary fw-bold"
+                            onClick={async () => {
+                                const res = await axios.get(
+                                    `/api/appellant/appeals/${appeal.id}/printappeal`,
+                                    {
+                                        responseType: 'blob',
+                                    }
+                                );
 
-                            fileDownload(
-                                res.data,
-                                'appeal-' + appeal.id + '.pdf'
-                            );
-                        }}
-                    >
-                        <i className="fa-solid fa-download"></i> Download PDF
-                    </button>
+                                fileDownload(
+                                    res.data,
+                                    'appeal-' + appeal.id + '.pdf'
+                                );
+                            }}
+                        >
+                            <i className="fa-solid fa-download"></i> Download
+                            PDF
+                        </button>
+                    </div>
                 </div>
                 <div className="card-body">
                     <div className="container mt-5">

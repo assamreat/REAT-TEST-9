@@ -2,6 +2,7 @@ import {
     GET_APPEALS,
     GET_APPEAL,
     CREATE_APPEAL,
+    UPDATE_APPEAL,
     FORWARD_APPEAL,
     REVERT_APPEAL,
     APPEAL_ERROR,
@@ -49,6 +50,7 @@ export default function (state = initialState, action) {
                 loading: false,
             };
         case CREATE_APPEAL:
+        case UPDATE_APPEAL:
             return {
                 ...state,
                 appeal: payload,

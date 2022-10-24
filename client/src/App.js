@@ -11,11 +11,13 @@ import setAuthToken from './utils/setAuthToken';
 import Home from './components/frontend/Home';
 // import CreateAppeal from './components/frontend/CreateAppeal';
 import CreateAppeal from './components/appellant/CreateAppeal';
+import AppealEdit from './components/appellant/AppealEdit';
 import AppellantLogin from './components/frontend/auth/appellant/Login';
 import Register from './components/frontend/auth/appellant/Register';
 import UserLogin from './components/frontend/auth/official/Login';
 
 import ConfirmPayment from './components/appellant/ConfirmPayment';
+
 // import MasterLayout from './layouts/official/MasterLayout';
 import AdminPrivateRoute from './components/routing/AdminPrivateRoute';
 import ReceptionistPrivateRoute from './components/routing/ReceptionistPrivateRoute';
@@ -75,6 +77,12 @@ const App = () => {
                             exact
                             path="/appellant/create-appeal"
                             component={CreateAppeal}
+                        />
+
+                        <AppellantPrivateRoute
+                            exact
+                            path="/appellant/appeals/:appealId/edit"
+                            component={AppealEdit}
                         />
 
                         <AppellantPrivateRoute

@@ -5,6 +5,7 @@ import {
     GET_APPEALS,
     GET_APPEAL,
     CREATE_APPEAL,
+    UPDATE_APPEAL,
     FORWARD_APPEAL,
     GET_APPEALS_REGISTRAR,
     GET_APPEAL_REGISTRAR,
@@ -71,6 +72,35 @@ export const createAppeal = (formData, history) => async (dispatch) => {
             payload: res.data,
         });
         history.push(`/appellant/appeals/${res.data.id}/payment`);
+    } catch (err) {
+        dispatch({
+            type: APPEAL_ERROR,
+            payload: {
+                msg: err.response.statusText,
+                status: err.response.status,
+            },
+        });
+    }
+};
+
+// Update an appeal
+export const updateAppeal = (formData, history, id) => async (dispatch) => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    };
+    try {
+        const res = await axios.patch(
+            `/api/appellant/appeals/${id}`,
+            formData,
+            config
+        );
+        dispatch({
+            type: UPDATE_APPEAL,
+            payload: res.data,
+        });
+        history.push(`/appellant/dashboard`);
     } catch (err) {
         dispatch({
             type: APPEAL_ERROR,

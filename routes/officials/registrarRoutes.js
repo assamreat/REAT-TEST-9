@@ -284,8 +284,8 @@ router.patch('/appeals/:id/revert', auth, isRegistrar, async (req, res) => {
 
         await AppealState.update(
             {
-                appellant: 0,
-                receptionist: 1,
+                appellant: 1,
+                receptionist: 0,
                 registrar: 0,
                 bench: 0,
             },
@@ -302,7 +302,7 @@ router.patch('/appeals/:id/revert', auth, isRegistrar, async (req, res) => {
         });
 
         if (existingAppeal) {
-            const revertedAppeal = await RevertedAppeal.update(
+            await RevertedAppeal.update(
                 {
                     reason: revertReason,
                 },
