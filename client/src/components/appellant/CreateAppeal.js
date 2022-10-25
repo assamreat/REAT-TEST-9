@@ -11,7 +11,7 @@ import CreateAppealFileUpload from './CreateAppealFileUpload';
 import CreateAppealConfirm from './CreateAppealConfirm';
 import './CreateAppeal.css';
 
-const FormC = ({ createAppeal, history, clearPaymentStatus }) => {
+const CreateAppeal = ({ createAppeal, history, clearPaymentStatus }) => {
     useEffect(() => {
         clearPaymentStatus();
     }, []);
@@ -156,5 +156,5 @@ const FormC = ({ createAppeal, history, clearPaymentStatus }) => {
 };
 
 export default connect(null, { createAppeal, clearPaymentStatus })(
-    withRouter(FormC)
+    withRouter(CreateAppeal)
 );

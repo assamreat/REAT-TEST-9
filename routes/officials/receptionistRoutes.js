@@ -9,7 +9,8 @@ const isReceptionist = require('../../middleware/isReceptionist');
 // Models
 const Appeal = require('../../models/Appeal');
 const AppealState = require('../../models/AppealState');
-const AppealDoc = require('../../models/AppealDoc');
+const Forward = require('../../models/Forward');
+// const AppealDoc = require('../../models/AppealDoc');
 
 // @route Post api/receptionist/appeals
 // @desc  View new Appeals - with receptionist
@@ -92,7 +93,37 @@ router.put('/appeals/:id/forward', auth, isReceptionist, async (req, res) => {
                 }
             );
 
-            res.json({ msg: 'table updated' });
+            // exiting forward
+            const existingForward = await Forward.findOne({
+                where: {
+                    appealId: req.params.id,
+                },
+            });
+
+            if (existingForward) {
+                await Forward.update(
+                    {
+                        processStatus: 'F',
+                        comments: req.body.comments,
+                    },
+                    {
+                        where: {
+                            appealId: req.params.id,
+                        },
+                    }
+                );
+
+                return res.json({ msg: 'Table updated' });
+            }
+            const forward = Forward.build({
+                processStatus: 'F',
+                comments: req.body.comments,
+                appealId: req.params.id,
+            });
+
+            await forward.save();
+
+            res.json(forward);
         } else {
             res.json({ msg: 'appeal is not with the receptionist' });
         }
@@ -106,19 +137,19 @@ router.put('/appeals/:id/forward', auth, isReceptionist, async (req, res) => {
 // @desc  View the documents for an appeal
 // @access Private
 
-router.get('/appeals/:id/docs', auth, isReceptionist, async (req, res) => {
-    try {
-        const appealDoc = await AppealDoc.findOne({
-            attributes: ['docURL'],
-            where: {
-                appealId: req.params.id,
-            },
-        });
-        res.json(appealDoc);
-    } catch (err) {
-        console.log(err.message);
-        res.status(500).send('Server Error');
-    }
-});
+// router.get('/appeals/:id/docs', auth, isReceptionist, async (req, res) => {
+//     try {
+//         const appealDoc = await AppealDoc.findOne({
+//             attributes: ['docURL'],
+//             where: {
+//                 appealId: req.params.id,
+//             },
+//         });
+//         res.json(appealDoc);
+//     } catch (err) {
+//         console.log(err.message);
+//         res.status(500).send('Server Error');
+//     }
+// });
 
 module.exports = router;

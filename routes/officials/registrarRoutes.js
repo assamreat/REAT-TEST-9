@@ -20,6 +20,7 @@ const isRegistrar = require('../../middleware/isRegistrar');
 const Appeal = require('../../models/Appeal');
 const AppealState = require('../../models/AppealState');
 const Checklist = require('../../models/Checklist');
+const Forward = require('../../models/Forward');
 const RevertedAppeal = require('../../models/RevertedAppeal');
 
 // @route Post api/registrar/appeals
@@ -301,27 +302,36 @@ router.patch('/appeals/:id/revert', auth, isRegistrar, async (req, res) => {
             where: { appealId: req.params.id },
         });
 
-        if (existingAppeal) {
-            await RevertedAppeal.update(
-                {
-                    reason: revertReason,
+        await Forward.update(
+            {
+                processStatus: 'R',
+                comments: revertReason,
+            },
+            {
+                where: {
+                    appealId: req.params.id,
                 },
-                {
-                    where: { appealId: req.params.id },
-                }
-            );
+            }
+        );
+        // await RevertedAppeal.update(
+        //     {
+        //         reason: revertReason,
+        //     },
+        //     {
+        //         where: { appealId: req.params.id },
+        //     }
+        // );
 
-            return res.json({ reason: revertReason });
-        }
+        res.json({ reason: revertReason });
 
-        const revertedAppeal = RevertedAppeal.build({
-            reason: revertReason,
-            appealId: req.params.id,
-        });
+        // const revertedAppeal = RevertedAppeal.build({
+        //     reason: revertReason,
+        //     appealId: req.params.id,
+        // });
 
-        await revertedAppeal.save();
+        // await revertedAppeal.save();
 
-        res.json(revertedAppeal);
+        // res.json(revertedAppeal);
     } catch (err) {
         console.log(err.message);
         res.status(500).send('Server Error');

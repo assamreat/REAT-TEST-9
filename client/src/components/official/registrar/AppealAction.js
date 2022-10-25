@@ -34,7 +34,7 @@ const AppealAction = ({ match, forwardToBench, revertAppeal, history }) => {
             <p className="mb-4">Take Action if Form A filled Up</p>
 
             <div className="row">
-                <div className="col-xl-8 col-lg-7">
+                <div className="col-xl-6 col-lg-6">
                     <div className="card shadow mb-4">
                         <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                             <h6 className="m-0 font-weight-bold text-primary">
@@ -42,42 +42,40 @@ const AppealAction = ({ match, forwardToBench, revertAppeal, history }) => {
                             </h6>
                         </div>
                         <div className="card-body">
-                            <div className="chart-area">
-                                <form onSubmit={(e) => onRevertSubmit(e)}>
-                                    <div className="row mb-3">
-                                        <div className="col-md-12">
-                                            <textarea
-                                                className="form-control"
-                                                rows="10"
-                                                placeholder="Reason for reverting back the appeal"
-                                                name="revertReason"
-                                                value={revertReason}
-                                                onChange={(e) => onChange(e)}
-                                            />
-                                        </div>
+                            <form onSubmit={(e) => onRevertSubmit(e)}>
+                                <div className="row mb-3">
+                                    <div className="col-md-12">
+                                        <textarea
+                                            className="form-control"
+                                            rows="5"
+                                            placeholder="Reason for reverting back the appeal"
+                                            name="revertReason"
+                                            value={revertReason}
+                                            onChange={(e) => onChange(e)}
+                                        />
                                     </div>
-                                    <div className="row">
-                                        <div className="col-md-4">
-                                            <button
-                                                to="#"
-                                                className="btn btn-danger btn-icon-split"
-                                            >
-                                                <span className="icon text-white-50">
-                                                    <i className="fa-solid fa-angles-left"></i>
-                                                </span>
-                                                <span className="text">
-                                                    Revert Back To Appellant
-                                                </span>
-                                            </button>
-                                        </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-md-4">
+                                        <button
+                                            to="#"
+                                            className="btn btn-danger btn-icon-split"
+                                        >
+                                            <span className="icon text-white-50">
+                                                <i className="fa-solid fa-angles-left"></i>
+                                            </span>
+                                            <span className="text">
+                                                Revert Appeal
+                                            </span>
+                                        </button>
                                     </div>
-                                </form>
-                            </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
 
-                <div className="col-xl-4 col-lg-5">
+                <div className="col-xl-6 col-lg-6">
                     <div className="card shadow mb-4">
                         <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                             <h6 className="m-0 font-weight-bold text-primary">

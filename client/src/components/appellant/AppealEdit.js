@@ -1,10 +1,11 @@
 import _ from 'lodash';
 import React, { useState, useEffect } from 'react';
 import ReactLoading from 'react-loading';
-import { withRouter } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { updateAppeal, appellantGetAppeal } from '../../actions/appeal';
 import { clearPaymentStatus } from '../../actions/payment';
+import { revertCheck } from '../../actions/forward';
 
 import CreateAppealDetails from './CreateAppealDetails';
 import CreateAppealFileUpload from './CreateAppealFileUpload';
@@ -16,6 +17,8 @@ const AppealEdit = ({
     appellantGetAppeal,
     history,
     clearPaymentStatus,
+    revertCheck,
+    forward,
     appeal: { appeal, loading },
     match,
 }) => {
@@ -78,6 +81,8 @@ const AppealEdit = ({
         clearPaymentStatus();
 
         const { appealId } = match.params;
+        revertCheck(appealId);
+
         appellantGetAppeal(appealId);
 
         setFormData({
@@ -228,7 +233,10 @@ const AppealEdit = ({
 
     switch (step) {
         case 1:
-            return (
+            if (forward.loading) {
+                return <div>Loading</div>;
+            }
+            return forward.forwardStatus === 'R' && forward.isWithAppellant ? (
                 <CreateAppealDetails
                     formData={formData}
                     onChange={onChange}
@@ -236,6 +244,8 @@ const AppealEdit = ({
                     setFormData={setFormData}
                     nextStep={nextStep}
                 />
+            ) : (
+                <Redirect to="/appellant/dashboard" />
             );
 
         case 2:
@@ -274,11 +284,12 @@ const AppealEdit = ({
 };
 
 const mapStateToProps = (state) => {
-    return { appeal: state.appeal };
+    return { appeal: state.appeal, forward: state.forward };
 };
 
 export default connect(mapStateToProps, {
     updateAppeal,
     appellantGetAppeal,
     clearPaymentStatus,
+    revertCheck,
 })(withRouter(AppealEdit));

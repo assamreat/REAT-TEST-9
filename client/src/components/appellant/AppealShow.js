@@ -1,15 +1,23 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { appellantGetAppeal } from '../../actions/appeal';
+import { revertCheck } from '../../actions/forward';
 import { Link } from 'react-router-dom';
 
 import axios from 'axios';
 const fileDownload = require('js-file-download');
 
-const AppealShow = ({ appellantGetAppeal, match, appeal: { appeal } }) => {
+const AppealShow = ({
+    appellantGetAppeal,
+    revertCheck,
+    forward,
+    match,
+    appeal: { appeal },
+}) => {
     useEffect(() => {
         const { id } = match.params;
         appellantGetAppeal(id);
+        revertCheck(id);
     }, []);
     return !appeal ? (
         <div>loading</div>
@@ -23,13 +31,18 @@ const AppealShow = ({ appellantGetAppeal, match, appeal: { appeal } }) => {
                         Details of the Appeal
                     </h6>
                     <div>
-                        <Link
-                            className="btn btn-sm btn-primary fw-bold mr-3"
-                            to={`/appellant/appeals/${appeal.id}/edit`}
-                        >
-                            <i class="fa-solid fa-pen-to-square"></i> Edit
-                            Appeal
-                        </Link>
+                        {forward.forwardStatus === 'R' &&
+                        forward.isWithAppellant ? (
+                            <Link
+                                className="btn btn-sm btn-primary fw-bold mr-3"
+                                to={`/appellant/appeals/${appeal.id}/edit`}
+                            >
+                                <i className="fa-solid fa-pen-to-square"></i>{' '}
+                                Edit Appeal
+                            </Link>
+                        ) : (
+                            <div></div>
+                        )}
                         <button
                             className="btn btn-sm btn-primary fw-bold"
                             onClick={async () => {
@@ -481,7 +494,9 @@ const AppealShow = ({ appellantGetAppeal, match, appeal: { appeal } }) => {
 };
 
 const mapStateToProps = (state) => {
-    return { appeal: state.appeal };
+    return { appeal: state.appeal, forward: state.forward };
 };
 
-export default connect(mapStateToProps, { appellantGetAppeal })(AppealShow);
+export default connect(mapStateToProps, { appellantGetAppeal, revertCheck })(
+    AppealShow
+);

@@ -16,6 +16,7 @@ const PDFDocument = require('pdfkit');
 //  Model
 const Appeal = require('../../models/Appeal');
 const AppealState = require('../../models/AppealState');
+const Forward = require('../../models/Forward');
 const Payment = require('../../models/Payment');
 
 // @route Post api/appellant/appeals
@@ -195,153 +196,189 @@ router.patch(
             });
         }
 
-        // for file upload
-        const doc = req.file;
-
-        let docUrl;
-        if (!doc) {
-            // return res.status(422).json({ msg: 'Attached file is not a pdf' });
-            docUrl = existingAppeal.docUrl;
-        } else {
-            docUrl = doc.path;
+        // check if the existing appeal belongs to the appellant
+        if (existingAppeal && existingAppeal.appellantId !== req.user.id) {
+            return res.status(400).json({
+                msg: 'no such appeal belongs to the appellant',
+            });
         }
 
-        const {
-            fullname,
-            ar_line1,
-            ar_line2,
-            ar_landmark,
-            ar_city,
-            ar_district,
-            ar_pin,
-            ar_state,
-            ar_country,
-            as_line1,
-            as_line2,
-            as_landmark,
-            as_city,
-            as_district,
-            as_pin,
-            as_state,
-            as_country,
-            appellant_mobile_no,
-            appellant_email_id,
-            res_fullname,
-            res_ao_line1,
-            res_ao_line2,
-            res_ao_landmark,
-            res_ao_city,
-            res_ao_district,
-            res_ao_pin,
-            res_ao_state,
-            res_ao_country,
-            res_as_line1,
-            res_as_line2,
-            res_as_landmark,
-            res_as_city,
-            res_as_district,
-            res_as_pin,
-            res_as_state,
-            res_as_country,
-            res_mobile_no,
-            res_email_id,
-            reg_num,
-            is_limitation_specified,
-            reason_for_delay,
-            facts_of_case,
-            ground_of_appeal,
-            reliefs_sought,
-            interim_order,
-            is_matter_pending,
-        } = req.body;
-        // const appellantId = req.user.id;
+        // check if the appeal is reverted
 
-        try {
-            await Appeal.update(
-                {
-                    fullname,
-                    ar_line1,
-                    ar_line2,
-                    ar_landmark,
-                    ar_city,
-                    ar_district,
-                    ar_pin,
-                    ar_state,
-                    ar_country,
-                    as_line1,
-                    as_line2,
-                    as_landmark,
-                    as_city,
-                    as_district,
-                    as_pin,
-                    as_state,
-                    as_country,
-                    appellant_mobile_no,
-                    appellant_email_id,
-                    res_fullname,
-                    res_ao_line1,
-                    res_ao_line2,
-                    res_ao_landmark,
-                    res_ao_city,
-                    res_ao_district,
-                    res_ao_pin,
-                    res_ao_state,
-                    res_ao_country,
-                    res_as_line1,
-                    res_as_line2,
-                    res_as_landmark,
-                    res_as_city,
-                    res_as_district,
-                    res_as_pin,
-                    res_as_state,
-                    res_as_country,
-                    res_mobile_no,
-                    res_email_id,
-                    reg_num,
-                    is_limitation_specified,
-                    reason_for_delay,
-                    facts_of_case,
-                    ground_of_appeal,
-                    reliefs_sought,
-                    interim_order,
-                    is_matter_pending,
-                    docUrl,
-                    // appellantId,
-                },
-                { where: { id: req.params.appealId } }
-            );
+        // check for appealstate
+        const appealState = await AppealState.findOne({
+            where: {
+                appealId: req.params.appealId,
+            },
+        });
 
-            // check payment status
-            const payment = await Payment.findAll({
-                where: { appealId: req.params.appealId },
-            });
+        // console.log(appealState.get({ plain: true }).appellant);
 
-            // return an array of payment
-            const paymentArray = payment.map((payment) => {
-                return payment.get({ plain: true });
-            });
+        // check for forward table status
+        const forward = await Forward.findOne({
+            where: {
+                appealId: req.params.appealId,
+            },
+        });
 
-            // find payment with status 'S'
-            const successPayment = paymentArray.filter((payment) => {
-                return payment.status === 'S';
-            });
+        // console.log(forward.get({ plain: true }).processStatus);
 
-            if (successPayment.length !== 0) {
-                await AppealState.update(
-                    {
-                        appellant: 0,
-                        receptionist: 1,
-                        registrar: 0,
-                        bench: 0,
-                    },
-                    { where: { appealId: req.params.appealId } }
-                );
+        // check if the appeal is with appellant and status is 'R'(reverted)
+        if (
+            appealState.get({ plain: true }).appellant &&
+            forward &&
+            forward.get({ plain: true }).processStatus === 'R'
+        ) {
+            // for file upload
+            const doc = req.file;
+
+            let docUrl;
+            if (!doc) {
+                // return res.status(422).json({ msg: 'Attached file is not a pdf' });
+                docUrl = existingAppeal.docUrl;
+            } else {
+                docUrl = doc.path;
             }
 
-            res.json({ msg: 'appeal updated' });
-        } catch (err) {
-            console.log(err.message);
-            res.status(500).send('Server Error');
+            const {
+                fullname,
+                ar_line1,
+                ar_line2,
+                ar_landmark,
+                ar_city,
+                ar_district,
+                ar_pin,
+                ar_state,
+                ar_country,
+                as_line1,
+                as_line2,
+                as_landmark,
+                as_city,
+                as_district,
+                as_pin,
+                as_state,
+                as_country,
+                appellant_mobile_no,
+                appellant_email_id,
+                res_fullname,
+                res_ao_line1,
+                res_ao_line2,
+                res_ao_landmark,
+                res_ao_city,
+                res_ao_district,
+                res_ao_pin,
+                res_ao_state,
+                res_ao_country,
+                res_as_line1,
+                res_as_line2,
+                res_as_landmark,
+                res_as_city,
+                res_as_district,
+                res_as_pin,
+                res_as_state,
+                res_as_country,
+                res_mobile_no,
+                res_email_id,
+                reg_num,
+                is_limitation_specified,
+                reason_for_delay,
+                facts_of_case,
+                ground_of_appeal,
+                reliefs_sought,
+                interim_order,
+                is_matter_pending,
+            } = req.body;
+            // const appellantId = req.user.id;
+
+            try {
+                await Appeal.update(
+                    {
+                        fullname,
+                        ar_line1,
+                        ar_line2,
+                        ar_landmark,
+                        ar_city,
+                        ar_district,
+                        ar_pin,
+                        ar_state,
+                        ar_country,
+                        as_line1,
+                        as_line2,
+                        as_landmark,
+                        as_city,
+                        as_district,
+                        as_pin,
+                        as_state,
+                        as_country,
+                        appellant_mobile_no,
+                        appellant_email_id,
+                        res_fullname,
+                        res_ao_line1,
+                        res_ao_line2,
+                        res_ao_landmark,
+                        res_ao_city,
+                        res_ao_district,
+                        res_ao_pin,
+                        res_ao_state,
+                        res_ao_country,
+                        res_as_line1,
+                        res_as_line2,
+                        res_as_landmark,
+                        res_as_city,
+                        res_as_district,
+                        res_as_pin,
+                        res_as_state,
+                        res_as_country,
+                        res_mobile_no,
+                        res_email_id,
+                        reg_num,
+                        is_limitation_specified,
+                        reason_for_delay,
+                        facts_of_case,
+                        ground_of_appeal,
+                        reliefs_sought,
+                        interim_order,
+                        is_matter_pending,
+                        docUrl,
+                        // appellantId,
+                    },
+                    { where: { id: req.params.appealId } }
+                );
+
+                // check payment status
+                const payment = await Payment.findAll({
+                    where: { appealId: req.params.appealId },
+                });
+
+                // return an array of payment
+                const paymentArray = payment.map((payment) => {
+                    return payment.get({ plain: true });
+                });
+
+                // find payment with status 'S'
+                const successPayment = paymentArray.filter((payment) => {
+                    return payment.status === 'S';
+                });
+
+                if (successPayment.length !== 0) {
+                    await AppealState.update(
+                        {
+                            appellant: 0,
+                            receptionist: 1,
+                            registrar: 0,
+                            bench: 0,
+                        },
+                        { where: { appealId: req.params.appealId } }
+                    );
+                }
+
+                res.json({ msg: 'appeal updated' });
+            } catch (err) {
+                console.log(err.message);
+                res.status(500).send('Server Error');
+            }
+        } else {
+            res.json({ msg: 'Cannot update appeal' });
         }
     }
 );
@@ -421,6 +458,32 @@ router.get('/appeals/:id/printappeal', auth, async (req, res) => {
         // Design of the pdf document
         appealPdf(pdfDoc, appeal);
         pdfDoc.end();
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
+// @route GET api/appellant/appeals/:id/revertcheck
+// @desc  check if the appeal is reverted and with appellant
+// @access Private
+router.get('/appeals/:appealId/revertcheck', auth, async (req, res) => {
+    try {
+        const appealState = await AppealState.findOne({
+            where: { appealId: req.params.appealId },
+        });
+        // console.log(appealState.get({ plain: true }).appellant);
+        const isWithAppellant = appealState.get({ plain: true }).appellant;
+
+        const forward = await Forward.findOne({
+            where: { appealId: req.params.appealId },
+        });
+
+        const forwardStatus = forward
+            ? forward.get({ plain: true }).processStatus
+            : null;
+
+        res.json({ isWithAppellant, forwardStatus });
     } catch (err) {
         console.log(err.message);
         res.status(500).send('Server Error');

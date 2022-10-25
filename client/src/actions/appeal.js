@@ -113,26 +113,36 @@ export const updateAppeal = (formData, history, id) => async (dispatch) => {
 };
 
 // Forward appeal to registrar
-export const forwardToRegistrar = (id, history) => async (dispatch) => {
-    try {
-        await axios.put(`/api/receptionist/appeals/${id}/forward`);
-
-        dispatch({
-            type: FORWARD_APPEAL,
-            payload: id,
-        });
-
-        history.push('/official/receptionist/appeals');
-    } catch (err) {
-        dispatch({
-            type: APPEAL_ERROR,
-            payload: {
-                msg: err.response.statusText,
-                status: err.response.status,
+export const forwardToRegistrar =
+    (comments, id, history) => async (dispatch) => {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
             },
-        });
-    }
-};
+        };
+        try {
+            await axios.put(
+                `/api/receptionist/appeals/${id}/forward`,
+                comments,
+                config
+            );
+
+            dispatch({
+                type: FORWARD_APPEAL,
+                payload: id,
+            });
+
+            history.push('/official/receptionist/appeals');
+        } catch (err) {
+            dispatch({
+                type: APPEAL_ERROR,
+                payload: {
+                    msg: err.response.statusText,
+                    status: err.response.status,
+                },
+            });
+        }
+    };
 
 // Get List of Appeals with Registrar
 export const getAppealsWithRegistrar = () => async (dispatch) => {
