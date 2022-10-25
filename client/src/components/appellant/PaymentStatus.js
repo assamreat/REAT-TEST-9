@@ -47,8 +47,8 @@ const PaymentStatus = ({ paymentStatus, match, payment: { status } }) => {
             case 'S':
                 paymentState.message = 'Payment Successful!';
                 paymentState.bgclass = 'success';
-                paymentState.cta = 'Print Receipt';
-                paymentState.destination = `/appellant/appeals/${id}/payment`;
+                paymentState.cta = 'Go to dashboard';
+                paymentState.destination = `/appellant/dashboard`;
 
                 break;
         }

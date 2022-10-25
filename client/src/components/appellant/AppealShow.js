@@ -44,6 +44,24 @@ const AppealShow = ({
                             <div></div>
                         )}
                         <button
+                            className="btn btn-sm btn-primary fw-bold mr-3"
+                            onClick={async () => {
+                                const res = await axios.get(
+                                    `/api/appellant/appeals/${appeal.id}/printreceipt`,
+                                    {
+                                        responseType: 'blob',
+                                    }
+                                );
+
+                                fileDownload(
+                                    res.data,
+                                    'receipt-' + appeal.id + '.pdf'
+                                );
+                            }}
+                        >
+                            <i class="fa-solid fa-receipt"></i> Print Receipt
+                        </button>
+                        <button
                             className="btn btn-sm btn-primary fw-bold"
                             onClick={async () => {
                                 const res = await axios.get(

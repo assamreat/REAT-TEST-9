@@ -3,6 +3,7 @@ const router = express.Router();
 const { validationResult } = require('express-validator');
 const validateInputAppeal = require('../../validation/appeal');
 const appealPdf = require('../../documents/appealPdf');
+const invoice = require('../../documents/invoice');
 
 const fs = require('fs');
 const path = require('path');
@@ -457,6 +458,54 @@ router.get('/appeals/:id/printappeal', auth, async (req, res) => {
 
         // Design of the pdf document
         appealPdf(pdfDoc, appeal);
+        pdfDoc.end();
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
+// @route POST api/appellant/appeals/:id/printreceipt
+// @desc  Download filled form C for an appeal
+// @access Private
+router.get('/appeals/:id/printreceipt', auth, async (req, res) => {
+    try {
+        const appeal = await Appeal.findOne({
+            where: {
+                id: req.params.id,
+            },
+        });
+
+        if (!appeal) {
+            return next(new Error('No appeal found'));
+        }
+
+        if (appeal.appellantId.toString() !== req.user.id.toString()) {
+            return next(new Error('Unauthorized'));
+        }
+
+        const receipt = {
+            invoiceId: '1000001',
+            date: '24/10/2022',
+            amount: '1000',
+            mode: 'Credit Card',
+        };
+
+        const receiptName = 'receipt-' + appeal.id + '.pdf';
+        const receiptPath = path.join('data', 'receipts', receiptName);
+
+        const pdfDoc = new PDFDocument();
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader(
+            'Content-Disposition',
+            'attachment; fileName="' + receiptName + '"'
+        );
+        pdfDoc.pipe(fs.createWriteStream(receiptPath));
+        pdfDoc.pipe(res);
+
+        // Design of the pdf document for receipt
+        // appealPdf(pdfDoc, appeal);
+        invoice(pdfDoc, receipt);
         pdfDoc.end();
     } catch (err) {
         console.log(err.message);

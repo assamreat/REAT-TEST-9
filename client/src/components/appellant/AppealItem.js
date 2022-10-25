@@ -33,7 +33,7 @@ const AppealItem = ({ appeal: { id, fullname, res_fullname } }) => {
             </td>
             <td>
                 <Link
-                    to={`/appellant/appeals/${id}/payment`}
+                    to={`/appellant/appeals/${id}/appealstatus`}
                     className="text-primary"
                     style={{ fontSize: '1rem', padding: '0 .2rem' }}
                 >
