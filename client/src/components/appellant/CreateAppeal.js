@@ -65,7 +65,7 @@ const CreateAppeal = ({ createAppeal, history, clearPaymentStatus }) => {
         ground_of_appeal: '',
         reliefs_sought: '',
         interim_order: '',
-        is_matter_pending: true,
+        is_matter_pending: '',
     });
 
     const [fileData, setFileData] = useState();

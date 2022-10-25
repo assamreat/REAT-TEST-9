@@ -221,6 +221,11 @@ const CreateAppealDetails = ({
             errors.reliefs_sought = 'Please specify Relief(s) Sought';
             errors.reliefs_sought_err = 'ca_danger';
         }
+
+        if (!values.is_matter_pending) {
+            errors.is_matter_pending = 'Please select a response';
+        }
+
         return errors;
     };
 
@@ -926,6 +931,9 @@ const CreateAppealDetails = ({
                         which this appeal has been made, is not pending before
                         any court of law or any other authority or any other
                         Tribunal(s).<span className="required">*</span>
+                        <span className="invalid-feedback d-block">
+                            {formErrors.is_matter_pending}
+                        </span>
                     </p>
                     <div className="question-answer">
                         <input
