@@ -16,6 +16,26 @@ const Payment = sequelize.define('payment', {
         type: Sequelize.STRING,
         allowNull: false,
     },
+
+    paymentMode: {
+        type: Sequelize.STRING,
+    },
+
+    transactionDateAndTime: {
+        type: Sequelize.STRING,
+    },
+
+    surepayTxnId: {
+        type: Sequelize.STRING,
+    },
+
+    bankTxnNo: {
+        type: Sequelize.STRING,
+    },
+
+    NSDLResponse: {
+        type: Sequelize.TEXT,
+    },
 });
 
 module.exports = Payment;

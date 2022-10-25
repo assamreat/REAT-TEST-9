@@ -207,6 +207,11 @@ router.post('/success', async (req, res) => {
         await Payment.update(
             {
                 status: SuccessFlag,
+                paymentMode: PaymentMode,
+                transactionDateAndTime: ResponseDateTime,
+                surepayTxnId: SurePayTxnId,
+                bankTxnNo: BankTransactionNo,
+                NSDLResponse: msg,
             },
             {
                 where: {
