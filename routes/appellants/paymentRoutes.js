@@ -47,6 +47,7 @@ router.get('/createOrder/:appealId', auth, async (req, res) => {
         // create orderID
         const order = Payment.build({
             status: 'I',
+            serviceId: 'AREATFEE1000',
             appealId: req.params.appealId,
         });
 
@@ -207,10 +208,6 @@ router.post('/success', async (req, res) => {
         await Payment.update(
             {
                 status: SuccessFlag,
-                paymentMode: PaymentMode,
-                transactionDateAndTime: ResponseDateTime,
-                surepayTxnId: SurePayTxnId,
-                bankTxnNo: BankTransactionNo,
                 NSDLResponse: msg,
             },
             {
@@ -237,6 +234,7 @@ router.post('/success', async (req, res) => {
         await Payment.update(
             {
                 status: 'F',
+                NSDLResponse: msg,
             },
             {
                 where: {
@@ -287,6 +285,7 @@ router.post('/fail', async (req, res) => {
     await Payment.update(
         {
             status: FailureFlag,
+            NSDLResponse: msg,
         },
         {
             where: {

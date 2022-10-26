@@ -15,7 +15,10 @@ const CreateAppealDetails = ({
         const err = Object.keys(validate(formData));
 
         if (err.length) {
-            const input = document.querySelector(`input[name=${err[0]}]`);
+            const input =
+                document.querySelector(`input[name=${err[0]}]`) ||
+                document.querySelector(`select[name=${err[0]}]`) ||
+                document.querySelector(`textarea[name=${err[0]}]`);
 
             input.scrollIntoView({
                 behavior: 'smooth',

@@ -6,31 +6,18 @@ const Payment = sequelize.define('payment', {
     order_id: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
-        // type: Sequelize.INTEGER(6).ZEROFILL,
-        // autoIncrement: true,
         allowNull: false,
         primaryKey: true,
+    },
+
+    serviceId: {
+        type: Sequelize.STRING,
+        allowNull: false,
     },
 
     status: {
         type: Sequelize.STRING,
         allowNull: false,
-    },
-
-    paymentMode: {
-        type: Sequelize.STRING,
-    },
-
-    transactionDateAndTime: {
-        type: Sequelize.STRING,
-    },
-
-    surepayTxnId: {
-        type: Sequelize.STRING,
-    },
-
-    bankTxnNo: {
-        type: Sequelize.STRING,
     },
 
     NSDLResponse: {
