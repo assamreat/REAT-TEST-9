@@ -8,24 +8,39 @@ const AppealAction = ({ match, forwardToBench, revertAppeal, history }) => {
         revertReason: '',
     });
 
+    const [formError, setFormError] = useState({});
+
+    const validate = (values) => {
+        const errors = {};
+
+        if (!values.revertReason)
+            errors.revertReason = 'Field can not be empty';
+
+        return errors;
+    };
+
     const { revertReason } = formData;
 
     const onChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const onSubmit = () => {
-        const { id } = match.params;
+    const onSubmit = (e) => {
+        e.preventDefault();
 
+        const { id } = match.params;
         forwardToBench(id, history);
     };
 
     const onRevertSubmit = (e) => {
         e.preventDefault();
 
-        const { id } = match.params;
+        setFormError(validate(formData));
 
-        revertAppeal(formData, id, history);
+        if (Object.keys(validate(formData)).length === 0) {
+            const { id } = match.params;
+            revertAppeal(formData, id, history);
+        }
     };
 
     return (
@@ -53,6 +68,12 @@ const AppealAction = ({ match, forwardToBench, revertAppeal, history }) => {
                                             value={revertReason}
                                             onChange={(e) => onChange(e)}
                                         />
+                                        {formError &&
+                                            formError.revertReason && (
+                                                <p className="invalid-feedback d-block">
+                                                    {formError.revertReason}
+                                                </p>
+                                            )}
                                     </div>
                                 </div>
                                 <div className="row">
