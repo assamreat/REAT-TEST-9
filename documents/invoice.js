@@ -1,4 +1,4 @@
-module.exports = function (pdfDoc, receipt) {
+module.exports = function (pdfDoc, appeal, receipt) {
     pdfDoc
         .font('Courier')
         .fontSize(24)
@@ -12,21 +12,24 @@ module.exports = function (pdfDoc, receipt) {
         .text('Invoivce to', { align: 'left' })
         .fontSize(12)
         .moveDown(1)
-        .text('Name:                                  ' + 'Jhon Doe')
+        .text('Name:                                  ' + appeal.fullname)
         .moveDown(0.1)
-        .text('Email Id:                              ' + 'jhondoe@gmail.com')
+        .text(
+            'Email Id:                              ' +
+                appeal.appellant_email_id
+        )
         .moveDown(0.1)
-        .text('Appeal Id:                           ' + '1000001')
+        .text('Appeal Id:                           ' + appeal.id)
         .moveDown(0.1)
-        .text('Transaction Id:                    ' + '100rfetfy0001')
+        .text('Transaction Id:                    ' + receipt.BankTransactionNo)
         .moveDown(0.1)
-        .text('Status:                                  ' + 'Success')
+        .text('Status:                                 ' + 'Success')
         .moveDown(0.1)
-        .text('Transaction Date:                ' + '24-10-2022')
+        .text('Transaction Date:                ' + receipt.ResponseDateTime)
         .moveDown(0.1)
         .text('service:                                ' + 'Appeal Fee')
         .moveDown(0.1)
-        .text('Payment Method:                ' + 'Debit Card')
+        .text('Payment Method:                ' + receipt.PaymentMode)
         .moveDown(0.1)
         .text('Amount:                              ' + '1000/-')
         .moveDown(3)

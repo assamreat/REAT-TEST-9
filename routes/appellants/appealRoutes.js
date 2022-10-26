@@ -484,11 +484,73 @@ router.get('/appeals/:id/printreceipt', auth, async (req, res) => {
             return next(new Error('Unauthorized'));
         }
 
+        // check payment status
+        const payment = await Payment.findAll({
+            where: { appealId: req.params.id },
+        });
+
+        // return an array of payment
+        const paymentArray = payment.map((payment) => {
+            return payment.get({ plain: true });
+        });
+
+        // find payment with status 'S'
+        const successPayment = paymentArray.filter((payment) => {
+            return payment.status === 'S';
+        });
+
+        if (successPayment.length === 0) {
+            return next(new Error('No payment Made'));
+        }
+
+        const successMsg = successPayment[0].NSDLResponse;
+
+        const successMsgArr = successMsg.split('|');
+
+        const SuccessFlag = successMsgArr[0];
+        const MessageType = successMsgArr[1];
+        const SurePayMerchantId = successMsgArr[2];
+        const ServiceId = successMsgArr[3];
+        const OrderId = successMsgArr[4];
+        const CustomerId = successMsgArr[5];
+        const TransactionAmount = successMsgArr[6];
+        const CurrencyCode = successMsgArr[7];
+        const PaymentMode = successMsgArr[8];
+        const ResponseDateTime = successMsgArr[9];
+        const SurePayTxnId = successMsgArr[10];
+        const BankTransactionNo = successMsgArr[11];
+        const TransactionStatus = successMsgArr[12];
+        const AdditionalInfo1 = successMsgArr[13];
+        const AdditionalInfo2 = successMsgArr[14];
+        const AdditionalInfo3 = successMsgArr[15];
+        const AdditionalInfo4 = successMsgArr[16];
+        const AdditionalInfo5 = successMsgArr[17];
+        const ErrorCode = successMsgArr[18];
+        const ErrorDescription = successMsgArr[19];
+        const CheckSum = successMsgArr[20];
+
         const receipt = {
-            invoiceId: '1000001',
-            date: '24/10/2022',
-            amount: '1000',
-            mode: 'Credit Card',
+            SuccessFlag,
+            MessageType,
+            SurePayMerchantId,
+            ServiceId,
+            OrderId,
+            CustomerId,
+            TransactionAmount,
+            CurrencyCode,
+            PaymentMode,
+            ResponseDateTime,
+            SurePayTxnId,
+            BankTransactionNo,
+            TransactionStatus,
+            AdditionalInfo1,
+            AdditionalInfo2,
+            AdditionalInfo3,
+            AdditionalInfo4,
+            AdditionalInfo5,
+            ErrorCode,
+            ErrorDescription,
+            CheckSum,
         };
 
         const receiptName = 'receipt-' + appeal.id + '.pdf';
@@ -505,7 +567,7 @@ router.get('/appeals/:id/printreceipt', auth, async (req, res) => {
 
         // Design of the pdf document for receipt
         // appealPdf(pdfDoc, appeal);
-        invoice(pdfDoc, receipt);
+        invoice(pdfDoc, appeal, receipt);
         pdfDoc.end();
     } catch (err) {
         console.log(err.message);
