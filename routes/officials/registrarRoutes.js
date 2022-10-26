@@ -21,6 +21,7 @@ const Appeal = require('../../models/Appeal');
 const AppealState = require('../../models/AppealState');
 const Checklist = require('../../models/Checklist');
 const Forward = require('../../models/Forward');
+const BenchAppeal = require('../../models/BenchAppeal');
 const RevertedAppeal = require('../../models/RevertedAppeal');
 
 // @route Post api/registrar/appeals
@@ -356,6 +357,15 @@ router.put('/appeals/:id/forward', auth, isRegistrar, async (req, res) => {
             return res.json({ msg: 'appeal is not with the registrar' });
         }
 
+        // creat benchappeal table
+        const benchappeal = BenchAppeal.build({
+            dateOfHearing: req.body.benchdate,
+            appealId: req.params.id,
+        });
+
+        await benchappeal.save();
+
+        // update appeal state
         await AppealState.update(
             {
                 appellant: 0,

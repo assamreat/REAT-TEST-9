@@ -25,13 +25,6 @@ const AppealAction = ({ match, forwardToBench, revertAppeal, history }) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const onSubmit = (e) => {
-        e.preventDefault();
-
-        const { id } = match.params;
-        forwardToBench(id, history);
-    };
-
     const onRevertSubmit = (e) => {
         e.preventDefault();
 
@@ -40,6 +33,33 @@ const AppealAction = ({ match, forwardToBench, revertAppeal, history }) => {
         if (Object.keys(validate(formData)).length === 0) {
             const { id } = match.params;
             revertAppeal(formData, id, history);
+        }
+    };
+
+    const [benchdate, setBenchdate] = useState({ benchdate: '' });
+    const [benchdateError, setBenchdateError] = useState({});
+
+    const validateBench = (values) => {
+        const error = {};
+
+        if (!values.benchdate) error.benchdate = 'Please select a date';
+
+        return error;
+    };
+
+    const onBenchdateChange = (e) => {
+        console.log(e.target.value);
+        setBenchdate({ benchdate: e.target.value });
+    };
+
+    const onBenchSubmit = (e) => {
+        e.preventDefault();
+
+        setBenchdateError(validateBench(benchdate));
+
+        if (Object.keys(validateBench(benchdate)).length === 0) {
+            const { id } = match.params;
+            forwardToBench(benchdate, id, history);
         }
     };
 
@@ -77,7 +97,7 @@ const AppealAction = ({ match, forwardToBench, revertAppeal, history }) => {
                                     </div>
                                 </div>
                                 <div className="row">
-                                    <div className="col-md-4">
+                                    <div className="col-md-8 col-lg-6">
                                         <button
                                             to="#"
                                             className="btn btn-danger btn-icon-split"
@@ -109,8 +129,24 @@ const AppealAction = ({ match, forwardToBench, revertAppeal, history }) => {
                                 and all the documents are fine please forward
                                 the appeal to the bench.
                             </p>
+
+                            <label htmlFor="benchdate">Date of hearing</label>
+                            <input
+                                className="form-control mb-3"
+                                type="date"
+                                id="benchdate"
+                                name="benchdate"
+                                value={benchdate.benchdate}
+                                onChange={(e) => onBenchdateChange(e)}
+                            ></input>
+
+                            {benchdateError && benchdateError.benchdate && (
+                                <p className="invalid-feedback d-block">
+                                    {benchdateError.benchdate}
+                                </p>
+                            )}
                             <button
-                                onClick={() => onSubmit()}
+                                onClick={(e) => onBenchSubmit(e)}
                                 className="btn btn-success btn-icon-split"
                             >
                                 <span className="icon text-white-50">
@@ -118,7 +154,6 @@ const AppealAction = ({ match, forwardToBench, revertAppeal, history }) => {
                                 </span>
                                 <span className="text">Forward to Bench</span>
                             </button>
-                            <div className="my-2"></div>
                         </div>
                     </div>
                 </div>

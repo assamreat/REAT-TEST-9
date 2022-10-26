@@ -225,9 +225,18 @@ export const appellantGetAppeal = (id) => async (dispatch) => {
 };
 
 // Forward appeal to bench by registrar
-export const forwardToBench = (id, history) => async (dispatch) => {
+export const forwardToBench = (benchdate, id, history) => async (dispatch) => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    };
     try {
-        await axios.put(`/api/registrar/appeals/${id}/forward`);
+        await axios.put(
+            `/api/registrar/appeals/${id}/forward`,
+            benchdate,
+            config
+        );
 
         dispatch({
             type: FORWARD_APPEAL,

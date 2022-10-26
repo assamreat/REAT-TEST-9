@@ -38,6 +38,7 @@ const Checklist = require('./models/Checklist');
 const AppealDoc = require('./models/AppealDoc');
 const RevertedAppeal = require('./models/RevertedAppeal');
 const Forward = require('./models/Forward');
+const BenchAppeal = require('./models/BenchAppeal');
 const Payment = require('./models/Payment');
 
 // Init Middleware
@@ -94,6 +95,9 @@ Appeal.hasOne(Forward);
 
 RevertedAppeal.belongsTo(Appeal, { constraints: true, onDelete: 'CASCADE' });
 Appeal.hasOne(RevertedAppeal);
+
+BenchAppeal.belongsTo(Appeal, { constraints: true, onDelete: 'CASCADE' });
+Appeal.hasOne(BenchAppeal);
 
 Payment.belongsTo(Appeal, { constraints: true, onDelete: 'CASCADE' });
 Appeal.hasMany(Payment);
