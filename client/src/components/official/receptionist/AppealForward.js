@@ -5,6 +5,15 @@ import { forwardToRegistrar } from '../../../actions/appeal';
 
 const AppealForward = ({ match, forwardToRegistrar, history }) => {
     const [comments, setComments] = useState({ comments: '' });
+    const [formError, setFormError] = useState({});
+
+    const validate = (values) => {
+        const errors = {};
+
+        if (!values.comments) errors.comments = 'Field can not be empty';
+
+        return errors;
+    };
 
     const onChange = (e) => {
         setComments({ comments: e.target.value });
@@ -12,8 +21,13 @@ const AppealForward = ({ match, forwardToRegistrar, history }) => {
 
     const onForward = (e) => {
         e.preventDefault();
-        const { id } = match.params;
-        forwardToRegistrar(comments, id, history);
+
+        setFormError(validate(comments));
+
+        if (Object.keys(validate(comments)).length === 0) {
+            const { id } = match.params;
+            forwardToRegistrar(comments, id, history);
+        }
     };
     return (
         <div className="container-fluid">
@@ -41,6 +55,11 @@ const AppealForward = ({ match, forwardToRegistrar, history }) => {
                                     value={comments.comments}
                                     onChange={(e) => onChange(e)}
                                 />
+                                {formError && formError.comments && (
+                                    <p className="invalid-feedback d-block">
+                                        {formError.comments}
+                                    </p>
+                                )}
                             </div>
                         </div>
                         <button
