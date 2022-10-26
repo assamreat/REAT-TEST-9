@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { appellantGetAppeal } from '../../actions/appeal';
+import { paymentStatus } from '../../actions/payment';
 import { revertCheck } from '../../actions/forward';
 import { Link } from 'react-router-dom';
 
@@ -9,6 +10,8 @@ const fileDownload = require('js-file-download');
 
 const AppealShow = ({
     appellantGetAppeal,
+    paymentStatus,
+    payment: { status },
     revertCheck,
     forward,
     match,
@@ -17,6 +20,7 @@ const AppealShow = ({
     useEffect(() => {
         const { id } = match.params;
         appellantGetAppeal(id);
+        paymentStatus(id);
         revertCheck(id);
     }, []);
     return !appeal ? (
@@ -43,24 +47,30 @@ const AppealShow = ({
                         ) : (
                             <div></div>
                         )}
-                        <button
-                            className="btn btn-sm btn-primary fw-bold mr-3"
-                            onClick={async () => {
-                                const res = await axios.get(
-                                    `/api/appellant/appeals/${appeal.id}/printreceipt`,
-                                    {
-                                        responseType: 'blob',
-                                    }
-                                );
+                        {status && status.status === 'S' ? (
+                            <button
+                                className="btn btn-sm btn-primary fw-bold mr-3"
+                                onClick={async () => {
+                                    const res = await axios.get(
+                                        `/api/appellant/appeals/${appeal.id}/printreceipt`,
+                                        {
+                                            responseType: 'blob',
+                                        }
+                                    );
 
-                                fileDownload(
-                                    res.data,
-                                    'receipt-' + appeal.id + '.pdf'
-                                );
-                            }}
-                        >
-                            <i class="fa-solid fa-receipt"></i> Print Receipt
-                        </button>
+                                    fileDownload(
+                                        res.data,
+                                        'receipt-' + appeal.id + '.pdf'
+                                    );
+                                }}
+                            >
+                                <i class="fa-solid fa-receipt"></i> Print
+                                Receipt
+                            </button>
+                        ) : (
+                            <div></div>
+                        )}
+
                         <button
                             className="btn btn-sm btn-primary fw-bold"
                             onClick={async () => {
@@ -512,9 +522,15 @@ const AppealShow = ({
 };
 
 const mapStateToProps = (state) => {
-    return { appeal: state.appeal, forward: state.forward };
+    return {
+        appeal: state.appeal,
+        forward: state.forward,
+        payment: state.payment,
+    };
 };
 
-export default connect(mapStateToProps, { appellantGetAppeal, revertCheck })(
-    AppealShow
-);
+export default connect(mapStateToProps, {
+    appellantGetAppeal,
+    paymentStatus,
+    revertCheck,
+})(AppealShow);
