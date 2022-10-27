@@ -23,6 +23,7 @@ const Checklist = require('../../models/Checklist');
 const Forward = require('../../models/Forward');
 const BenchAppeal = require('../../models/BenchAppeal');
 const RevertedAppeal = require('../../models/RevertedAppeal');
+const Payment = require('../../models/Payment');
 
 // @route Post api/registrar/appeals
 // @desc  View all Appeals - with registrar
@@ -78,6 +79,91 @@ router.get('/appeals/:id', auth, isRegistrar, async (req, res) => {
         res.status(500).send('Server Error');
     }
 });
+
+// @route GET api/registrar/appeals/:id/paymentDetail
+// @desc  GET payment details
+// @access Private
+router.get(
+    '/appeals/:id/paymentDetail',
+    auth,
+    isRegistrar,
+    async (req, res) => {
+        try {
+            // check payment status
+            const payment = await Payment.findAll({
+                where: { appealId: req.params.id },
+            });
+
+            // return an array of payment
+            const paymentArray = payment.map((payment) => {
+                return payment.get({ plain: true });
+            });
+
+            // find payment with status 'S'
+            const successPayment = paymentArray.filter((payment) => {
+                return payment.status === 'S';
+            });
+
+            if (successPayment.length === 0) {
+                return next(new Error('No payment Made'));
+            }
+
+            const successMsg = successPayment[0].NSDLResponse;
+
+            const successMsgArr = successMsg.split('|');
+
+            const SuccessFlag = successMsgArr[0];
+            const MessageType = successMsgArr[1];
+            const SurePayMerchantId = successMsgArr[2];
+            const ServiceId = successMsgArr[3];
+            const OrderId = successMsgArr[4];
+            const CustomerId = successMsgArr[5];
+            const TransactionAmount = successMsgArr[6];
+            const CurrencyCode = successMsgArr[7];
+            const PaymentMode = successMsgArr[8];
+            const ResponseDateTime = successMsgArr[9];
+            const SurePayTxnId = successMsgArr[10];
+            const BankTransactionNo = successMsgArr[11];
+            const TransactionStatus = successMsgArr[12];
+            const AdditionalInfo1 = successMsgArr[13];
+            const AdditionalInfo2 = successMsgArr[14];
+            const AdditionalInfo3 = successMsgArr[15];
+            const AdditionalInfo4 = successMsgArr[16];
+            const AdditionalInfo5 = successMsgArr[17];
+            const ErrorCode = successMsgArr[18];
+            const ErrorDescription = successMsgArr[19];
+            const CheckSum = successMsgArr[20];
+
+            const receipt = {
+                SuccessFlag,
+                MessageType,
+
+                ServiceId,
+                OrderId,
+                CustomerId,
+                TransactionAmount,
+                CurrencyCode,
+                PaymentMode,
+                ResponseDateTime,
+
+                BankTransactionNo,
+                TransactionStatus,
+                AdditionalInfo1,
+                AdditionalInfo2,
+                AdditionalInfo3,
+                AdditionalInfo4,
+                AdditionalInfo5,
+                ErrorCode,
+                ErrorDescription,
+            };
+
+            res.json(receipt);
+        } catch (err) {
+            console.log(err.message);
+            res.status(500).send('Server Error');
+        }
+    }
+);
 
 // @route POST api/registrar/appeals/:id/checklist
 // @desc  create checklist (Form A)

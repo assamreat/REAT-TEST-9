@@ -1,7 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
-const fileDownload = require('js-file-download');
 
 const BenchItem = ({ appeal: { id, fullname, res_fullname } }) => {
     return (
@@ -18,7 +16,7 @@ const BenchItem = ({ appeal: { id, fullname, res_fullname } }) => {
                     <i className="fa-solid fa-hurricane"></i> view
                 </Link>
             </td>
-            <td>
+            {/* <td>
                 <button
                     className="btn btn-sm btn-warning"
                     style={{ fontSize: '.7rem', padding: '0 .2rem' }}
@@ -41,7 +39,7 @@ const BenchItem = ({ appeal: { id, fullname, res_fullname } }) => {
                 >
                     <i className="fa-solid fa-clipboard-list"></i> Checklist
                 </Link>
-            </td>
+            </td> */}
         </tr>
     );
 };

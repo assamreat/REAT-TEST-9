@@ -1,5 +1,6 @@
 import RegistrarPanel from '../../components/official/registrar/RegistrarPanel';
 import AppealShow from '../../components/official/registrar/AppealShow';
+import PaymentDetail from '../../components/official/registrar/PaymentDetail';
 import Checklist from '../../components/official/registrar/Checklist';
 import ChecklistEdit from '../../components/official/registrar/ChecklistEdit';
 import AppealAction from '../../components/official/registrar/AppealAction';
@@ -26,6 +27,12 @@ const routes = [
         exact: true,
         name: 'AppealShow',
         component: AppealShow,
+    },
+    {
+        path: '/official/registrar/appeals/:id/paymentdetail',
+        exact: true,
+        name: 'PaymentDetail',
+        component: PaymentDetail,
     },
     {
         path: '/official/registrar/appeals/:id/checklist',

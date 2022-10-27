@@ -37,6 +37,7 @@ const Registrar = ({
                                     <th>Appellant</th>
                                     <th>Respondent</th>
                                     <th>View</th>
+                                    <th>Payment</th>
                                     <th>Documents</th>
                                     <th>Checklist</th>
                                     <th>Action</th>

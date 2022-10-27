@@ -30,12 +30,10 @@ const BenchList = ({ getAppealsBench, appeal: { appeals, loading } }) => {
                         >
                             <thead>
                                 <tr>
-                                    <th>id</th>
-                                    <th>Name</th>
-                                    <th>Address</th>
+                                    <th>Appeal id</th>
+                                    <th>Appellant</th>
+                                    <th>Respondent</th>
                                     <th>View</th>
-                                    <th>Action</th>
-                                    <th>Checklist</th>
                                 </tr>
                             </thead>
 
