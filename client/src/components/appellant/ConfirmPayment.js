@@ -141,10 +141,7 @@ const ConfirmPayment = ({
                                 className="col-md-2 text-center"
                                 style={{ marginTop: '50px' }}
                             >
-                                <form
-                                    action="https://pilot.surepay.ndml.in/SurePayPayment/sp/processRequest"
-                                    method="post"
-                                >
+                                <form action={payment.processUrl} method="post">
                                     <input
                                         readOnly
                                         hidden

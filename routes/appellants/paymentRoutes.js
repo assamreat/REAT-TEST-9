@@ -306,7 +306,7 @@ router.post('/paygov/response', (req, res) => {
     res.send('req.body.msg');
 });
 
-// @route GET payment/:id
+// @route GET payment/fetchData/:id
 // @desc  Get payment data
 // @access Private
 router.get('/fetchData/:id', auth, async (req, res) => {
@@ -330,6 +330,7 @@ router.get('/fetchData/:id', auth, async (req, res) => {
         const customerEmail = appellant.get({ plain: true }).email;
 
         // =======================================================
+        const processUrl = process.env.PAYMENT_PROCESS_URL;
         const messageType = '0100';
         const merchantId = process.env.MERCHANT_ID;
         const serviceId = process.env.SERVICE_ID;
@@ -378,6 +379,7 @@ router.get('/fetchData/:id', auth, async (req, res) => {
         const checksum = generateCRC32Checksum(message, secretKey);
 
         const paymentData = {
+            processUrl: processUrl,
             messageType: messageType,
             merchantId: merchantId,
             serviceId: serviceId,
