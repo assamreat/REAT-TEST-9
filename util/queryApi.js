@@ -58,6 +58,7 @@ const queryApi = async () => {
                 await Payment.update(
                     {
                         status: statusFlag,
+                        NSDLResponse: msg,
                     },
                     {
                         where: {
