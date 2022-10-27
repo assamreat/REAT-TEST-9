@@ -5,6 +5,7 @@ import {
     UPDATE_APPEAL,
     FORWARD_APPEAL,
     REVERT_APPEAL,
+    APPEAL_DATE,
     APPEAL_ERROR,
     GET_APPEALS_REGISTRAR,
     GET_APPEAL_REGISTRAR,
@@ -15,6 +16,7 @@ import {
 const initialState = {
     appeals: [],
     appeal: null,
+    dateOfHearing: null,
     loading: true,
     error: {},
 };
@@ -63,6 +65,13 @@ export default function (state = initialState, action) {
                 appeals: state.appeals.filter(
                     (appeal) => appeal.id !== payload
                 ),
+                loading: false,
+            };
+
+        case APPEAL_DATE:
+            return {
+                ...state,
+                dateOfHearing: payload.dateOfHearing,
                 loading: false,
             };
 

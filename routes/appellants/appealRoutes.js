@@ -17,6 +17,7 @@ const PDFDocument = require('pdfkit');
 //  Model
 const Appeal = require('../../models/Appeal');
 const AppealState = require('../../models/AppealState');
+const BenchAppeal = require('../../models/BenchAppeal');
 const Forward = require('../../models/Forward');
 const Payment = require('../../models/Payment');
 
@@ -595,6 +596,25 @@ router.get('/appeals/:appealId/revertcheck', auth, async (req, res) => {
             : null;
 
         res.json({ isWithAppellant, forwardStatus });
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
+// @route GET api/appellant/appeals/:id/getdate
+// @desc  GET date of gearing of the appeal
+// @access Private
+router.get('/appeals/:appealId/getdate', auth, async (req, res) => {
+    try {
+        const benchappeal = await BenchAppeal.findOne({
+            attributes: ['dateOfHearing'],
+            where: { appealId: req.params.appealId },
+        });
+
+        if (!benchappeal) return res.json({ dateOfHearing: null });
+
+        res.json(benchappeal);
     } catch (err) {
         console.log(err.message);
         res.status(500).send('Server Error');

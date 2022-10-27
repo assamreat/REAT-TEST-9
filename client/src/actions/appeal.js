@@ -4,6 +4,7 @@ import {
     APPEAL_ERROR,
     GET_APPEALS,
     GET_APPEAL,
+    APPEAL_DATE,
     CREATE_APPEAL,
     UPDATE_APPEAL,
     FORWARD_APPEAL,
@@ -262,6 +263,26 @@ export const getAppealsBench = () => async (dispatch) => {
 
         dispatch({
             type: GET_APPEALS,
+            payload: res.data,
+        });
+    } catch (err) {
+        dispatch({
+            type: APPEAL_ERROR,
+            payload: {
+                msg: err.response.statusText,
+                status: err.response.status,
+            },
+        });
+    }
+};
+
+// Get date of hearing of appeal
+export const getDateOfHearing = (id) => async (dispatch) => {
+    try {
+        const res = await axios.get(`/api/appellant/appeals/${id}/getdate`);
+
+        dispatch({
+            type: APPEAL_DATE,
             payload: res.data,
         });
     } catch (err) {
