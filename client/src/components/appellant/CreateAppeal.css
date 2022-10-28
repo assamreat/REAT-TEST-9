@@ -215,6 +215,10 @@ input[type='checkbox']:checked + label:after {
     box-shadow: 0 0 6px 0 #d00 !important;
 }
 
+hr {
+    height: 0 !important;
+}
+
 @media (min-width: 568px) {
     .city-item {
         display: flex;

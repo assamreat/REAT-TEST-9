@@ -16,7 +16,7 @@ const Sidebar = ({ logout }) => {
             >
                 <div className="sidebar-brand-icon rotate-n-15">
                     {/* <i className="fas fa-laugh-wink"></i> */}
-                    <i className="fa-solid fa-lock"></i>
+                    {/* <i className="fa-solid fa-lock"></i> */}
                 </div>
                 <div className="sidebar-brand-text mx-3">REAT Assam</div>
             </Link>
@@ -26,13 +26,14 @@ const Sidebar = ({ logout }) => {
             <li className="nav-item active">
                 <Link className="nav-link" to="/appellant/dashboard">
                     <i className="fas fa-fw fa-tachometer-alt"></i>
-                    <span>APPELLANT</span>
+                    <span>Dashboard</span>
                 </Link>
             </li>
+            <hr className="sidebar-divider" />
             <li className="nav-item active">
                 <Link className="nav-link" to="/appellant/create-appeal">
-                    <i className="fas fa-fw fa-plus"></i>
-                    <span>Create Appeal</span>
+                    <i className="fa-solid fa-circle-plus"></i>
+                    <span> File Appeal </span>
                 </Link>
             </li>
 
@@ -64,7 +65,7 @@ const Sidebar = ({ logout }) => {
                             className="collapse-item"
                             to="/appellant/dashboard"
                         >
-                            All Appeals
+                            Appeals List
                         </Link>
                     </div>
                 </div>

@@ -16,7 +16,7 @@ const Sidebar = ({ logout }) => {
             >
                 <div className="sidebar-brand-icon rotate-n-15">
                     {/* <i className="fas fa-laugh-wink"></i> */}
-                    <i className="fa-solid fa-lock"></i>
+                    {/* <i className="fa-solid fa-lock"></i> */}
                 </div>
                 <div className="sidebar-brand-text mx-3">REAT Assam</div>
             </Link>
@@ -26,7 +26,7 @@ const Sidebar = ({ logout }) => {
             <li className="nav-item active">
                 <Link className="nav-link" to="/official/admin/dashboard">
                     <i className="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span>
+                    <span>Admin Panel</span>
                 </Link>
             </li>
 

@@ -30,7 +30,7 @@ const AppealItem = ({ appeal: { id, fullname, res_fullname } }) => {
                     className="btn btn-sm btn-primary"
                     style={{ fontSize: '.7rem', padding: '0 .2rem' }}
                 >
-                    <i class="fa-solid fa-money-check-dollar"></i> Detail
+                    <i className="fa-solid fa-money-check-dollar"></i> Detail
                 </Link>
             </td>
             <td>

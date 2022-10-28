@@ -16,7 +16,7 @@ const Sidebar = ({ logout }) => {
             >
                 <div className="sidebar-brand-icon rotate-n-15">
                     {/* <i className="fas fa-laugh-wink"></i> */}
-                    <i className="fa-solid fa-lock"></i>
+                    {/* <i className="fa-solid fa-lock"></i> */}
                 </div>
                 <div className="sidebar-brand-text mx-3">REAT Assam</div>
             </Link>
@@ -26,7 +26,7 @@ const Sidebar = ({ logout }) => {
             <li className="nav-item active">
                 <Link className="nav-link" to="/official/admin/dashboard">
                     <i className="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Receptionist</span>
+                    <span>Receptionist Panel</span>
                 </Link>
             </li>
 
@@ -58,14 +58,14 @@ const Sidebar = ({ logout }) => {
                             className="collapse-item"
                             to="/official/receptionist/appeals"
                         >
-                            All Appeals
+                            Appeals
                         </Link>
-                        <Link
+                        {/* <Link
                             className="collapse-item"
                             to="/official/admin/users"
                         >
                             View
-                        </Link>
+                        </Link> */}
                     </div>
                 </div>
             </li>
