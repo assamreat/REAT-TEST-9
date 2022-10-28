@@ -123,12 +123,12 @@ const Login = ({
                                                 </button>
                                             </div>
                                             <div className="col-6 text-end">
-                                                <button
+                                                {/* <button
                                                     className="btn btn-link px-0"
                                                     type="button"
                                                 >
                                                     Forgot password?
-                                                </button>
+                                                </button> */}
                                             </div>
                                         </div>
                                     </form>

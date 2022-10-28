@@ -10,7 +10,6 @@ const isReceptionist = require('../../middleware/isReceptionist');
 const Appeal = require('../../models/Appeal');
 const AppealState = require('../../models/AppealState');
 const Forward = require('../../models/Forward');
-// const AppealDoc = require('../../models/AppealDoc');
 
 // @route Post api/receptionist/appeals
 // @desc  View new Appeals - with receptionist

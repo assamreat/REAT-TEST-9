@@ -22,7 +22,6 @@ const AppealState = require('../../models/AppealState');
 const Checklist = require('../../models/Checklist');
 const Forward = require('../../models/Forward');
 const BenchAppeal = require('../../models/BenchAppeal');
-const RevertedAppeal = require('../../models/RevertedAppeal');
 const Payment = require('../../models/Payment');
 
 // @route Post api/registrar/appeals
@@ -384,11 +383,6 @@ router.patch('/appeals/:id/revert', auth, isRegistrar, async (req, res) => {
 
         const { revertReason } = req.body;
 
-        // see if already reverted once
-        const existingAppeal = await RevertedAppeal.findOne({
-            where: { appealId: req.params.id },
-        });
-
         await Forward.update(
             {
                 processStatus: 'R',
@@ -400,25 +394,8 @@ router.patch('/appeals/:id/revert', auth, isRegistrar, async (req, res) => {
                 },
             }
         );
-        // await RevertedAppeal.update(
-        //     {
-        //         reason: revertReason,
-        //     },
-        //     {
-        //         where: { appealId: req.params.id },
-        //     }
-        // );
 
         res.json({ reason: revertReason });
-
-        // const revertedAppeal = RevertedAppeal.build({
-        //     reason: revertReason,
-        //     appealId: req.params.id,
-        // });
-
-        // await revertedAppeal.save();
-
-        // res.json(revertedAppeal);
     } catch (err) {
         console.log(err.message);
         res.status(500).send('Server Error');
