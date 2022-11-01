@@ -34,18 +34,12 @@ const ChecklistShow = ({ checklist }) => {
                 <div className="card-body">
                     <div className="row g-3">
                         <div className="col-12">
-                            <h4>
-                                <label htmlFor="FORM A">
-                                    <b>FORM A</b>
-                                </label>
-                            </h4>
+                            <h4 className="text-center fw-bold">FORM A</h4>
                         </div>
 
                         <div className="col-12">
-                            <h4>
-                                <label htmlFor="CHECKLIST FOR SECURITY APPEAL">
-                                    <b>CHECKLIST FOR SCRUTINY OF APPEAL</b>
-                                </label>
+                            <h4 className="text-center text-center">
+                                CHECKLIST FOR SCRUTINY OF APPEAL
                             </h4>
                         </div>
 

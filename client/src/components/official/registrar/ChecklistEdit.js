@@ -395,7 +395,7 @@ const Checklist = ({
 
     return (
         <div className="container-fluid">
-            <h1 className="h3 mb-2 text-gray-800">Checklist - FORM A</h1>
+            <h1 className="h3 mb-2 text-gray-800">Checklist - Update FORM A</h1>
             <p className="mb-4">Checklist for Scrutiny Appeal</p>
             <div className="card shadow mb-4">
                 <div className="card-header py-3"></div>
@@ -403,17 +403,13 @@ const Checklist = ({
                     <div className="row g-3">
                         <div className="col-12">
                             <h4>
-                                <label htmlFor="FORM A">
-                                    <b>FORM A - Update</b>
-                                </label>
+                                <h4 className="text-center fw-bold">FORM A</h4>
                             </h4>
                         </div>
 
                         <div className="col-12">
-                            <h4>
-                                <label htmlFor="CHECKLIST FOR SECURITY APPEAL">
-                                    <b>CHECKLIST FOR SCRUTINY APPEAL</b>
-                                </label>
+                            <h4 className="text-center text-center">
+                                CHECKLIST FOR SCRUTINY OF APPEAL
                             </h4>
                         </div>
 
