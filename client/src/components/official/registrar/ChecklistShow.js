@@ -38,7 +38,7 @@ const ChecklistShow = ({ checklist }) => {
                         </div>
 
                         <div className="col-12">
-                            <h4 className="text-center text-center">
+                            <h4 className="text-center">
                                 CHECKLIST FOR SCRUTINY OF APPEAL
                             </h4>
                         </div>
