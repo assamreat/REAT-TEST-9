@@ -119,10 +119,6 @@ const Checklist = sequelize.define(
             allowNull: false,
         },
 
-        copy_of_receipt: {
-            type: Sequelize.STRING,
-        },
-
         is_pagination_correct: {
             type: Sequelize.BOOLEAN,
             allowNull: false,

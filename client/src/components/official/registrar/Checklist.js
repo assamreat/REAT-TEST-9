@@ -43,7 +43,6 @@ const Checklist = ({
         objectionForCondonation: '',
         isFeesPaid: '',
         dateOfPayment: new Date(0),
-        copyOfReceipt: '',
         isPaginationCorrect: '',
         legibleDocs: '',
         isAppealMemoAnnexed: '',

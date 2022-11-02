@@ -32,7 +32,6 @@ const ChecklistForm = ({
         objectionForCondonation,
         isFeesPaid,
         dateOfPayment,
-        copyOfReceipt,
         isPaginationCorrect,
         legibleDocs,
         isAppealMemoAnnexed,
