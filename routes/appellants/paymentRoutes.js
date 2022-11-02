@@ -217,6 +217,15 @@ router.post('/success', async (req, res) => {
             }
         );
 
+        const payment = await Payment.findOne({
+            attributes: ['appealId'],
+            where: {
+                order_id: OrderId,
+            },
+        });
+
+        const appealId = payment.get({ plain: true }).appealId;
+
         // forward the appeal to receptionist - update appealState
         await AppealState.update(
             {
@@ -226,7 +235,7 @@ router.post('/success', async (req, res) => {
                 bench: 0,
             },
             {
-                where: { appealId: CustomerId },
+                where: { appealId: appealId },
             }
         );
     } else {
