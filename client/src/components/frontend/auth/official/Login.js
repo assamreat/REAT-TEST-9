@@ -20,6 +20,16 @@ const Login = ({
 
     const [formErrors, setFormErrors] = useState({});
 
+    const [message, setMessage] = useState('');
+
+    const onForgotPassword = () => {
+        setMessage('Please contact Admin');
+
+        setTimeout(() => {
+            setMessage('');
+        }, 5000);
+    };
+
     const onChange = (e) =>
         setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -74,6 +84,13 @@ const Login = ({
     return (
         <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
             <div className="container">
+                <div className="row justify-content-center">
+                    {message && (
+                        <div className="col-md-6 alert-info p-3 mb-3">
+                            {message}
+                        </div>
+                    )}
+                </div>
                 <div className="row justify-content-center">
                     <div className="col-md-6">
                         <div className="card mb-4 mx-4">
@@ -135,12 +152,13 @@ const Login = ({
                                             </button>
                                         </div>
                                         <div className="col-6 text-end">
-                                            {/* <button
+                                            <button
+                                                onClick={onForgotPassword}
                                                 className="btn btn-link px-0"
                                                 type="button"
                                             >
                                                 Forgot password?
-                                            </button> */}
+                                            </button>
                                         </div>
                                     </div>
                                 </form>

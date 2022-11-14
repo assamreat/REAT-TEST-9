@@ -155,10 +155,9 @@ const Login = ({
                                     <div>
                                         <h2>Sign up</h2>
                                         <p>
-                                            For the appellants who does not have
-                                            an account here, you need to
-                                            register as an appellant first.
-                                            Please create your account here.
+                                            Haven't reigistered yet? Register as
+                                            an appellant to file appeal. Please
+                                            click below to register.
                                         </p>
                                         <Link
                                             className="btn btn-lg btn-outline-light mt-3"
