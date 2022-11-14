@@ -11,6 +11,7 @@ const isAdmin = require('../../middleware/isAdmin');
 
 // User Model
 const User = require('../../models/User');
+const Appellant = require('../../models/Appellant');
 
 // @route POST api/users/admin
 // @desc  Create Admin - needs to be deleted
@@ -334,6 +335,41 @@ router.delete('/:id', auth, isAdmin, async (req, res) => {
         });
 
         res.json({ msg: 'User removed' });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('Server Error');
+    }
+});
+
+// @route PUT api/users/appellant/reset-password
+// @desc  Reset password for Appellant
+// @access Private
+
+router.put('/appellant/reset-password', auth, isAdmin, async (req, res) => {
+    const { email, password } = req.body;
+    try {
+        const appellant = await Appellant.findOne({
+            where: { email: email },
+        });
+
+        if (!appellant) {
+            return res.status(400).json({
+                msg: 'email does not exist',
+            });
+        }
+
+        // generate the salt
+        const salt = await bcrypt.genSalt(10);
+
+        // hash the password using bcryptjs
+        hashedPassword = await bcrypt.hash(password, salt);
+
+        await Appellant.update(
+            { password: hashedPassword },
+            { where: { email: email } }
+        );
+
+        res.json({ msg: 'password updated' });
     } catch (err) {
         console.log(err);
         res.status(500).send('Server Error');

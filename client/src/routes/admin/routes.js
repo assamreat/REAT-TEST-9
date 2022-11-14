@@ -1,7 +1,7 @@
-import Dashboard from '../../components/official/admin/Dashboard';
 import Users from '../../components/official/admin/users/Users';
 import UserForm from '../../components/official/admin/users/UserForm';
 import UserEdit from '../../components/official/admin/users/UserEdit';
+import ResetPassword from '../../components/official/admin/utilities/ResetPassword';
 
 const routes = [
     { path: '/official/admin', exact: true, name: 'Admin' },
@@ -28,6 +28,12 @@ const routes = [
         exact: true,
         name: 'UserEdit',
         component: UserEdit,
+    },
+    {
+        path: '/official/admin/utilities/reset-password',
+        exact: true,
+        name: 'ResetPassword',
+        component: ResetPassword,
     },
 ];
 

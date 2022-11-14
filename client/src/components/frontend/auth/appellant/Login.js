@@ -20,6 +20,16 @@ const Login = ({
 
     const [formErrors, setFormErrors] = useState({});
 
+    const [message, setMessage] = useState('');
+
+    const onForgotPassword = () => {
+        setMessage('Please contact REAT office to reset password');
+
+        setTimeout(() => {
+            setMessage('');
+        }, 5000);
+    };
+
     const onChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
@@ -62,6 +72,11 @@ const Login = ({
         <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
             <div className="container">
                 <div className="row justify-content-center">
+                    {message && (
+                        <div className="col-lg-8 alert-info p-3 mb-3">
+                            {message}
+                        </div>
+                    )}
                     <div className="col-lg-8">
                         <div className="card-group d-block d-md-flex row">
                             <div className="card col-md-7 p-4 mb-0">
@@ -123,12 +138,13 @@ const Login = ({
                                                 </button>
                                             </div>
                                             <div className="col-6 text-end">
-                                                {/* <button
+                                                <button
                                                     className="btn btn-link px-0"
                                                     type="button"
+                                                    onClick={onForgotPassword}
                                                 >
                                                     Forgot password?
-                                                </button> */}
+                                                </button>
                                             </div>
                                         </div>
                                     </form>

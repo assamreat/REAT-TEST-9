@@ -70,7 +70,7 @@ const Sidebar = ({ logout }) => {
                 </div>
             </li>
 
-            {/* <li className="nav-item">
+            <li className="nav-item">
                 <Link
                     className="nav-link collapsed"
                     to="#"
@@ -90,10 +90,13 @@ const Sidebar = ({ logout }) => {
                 >
                     <div className="bg-white py-2 collapse-inner rounded">
                         <h6 className="collapse-header">Custom Utilities:</h6>
-                        <Link className="collapse-item" to="/admin/colors">
-                            Colors
+                        <Link
+                            className="collapse-item"
+                            to="/official/admin/utilities/reset-password"
+                        >
+                            Reset Password
                         </Link>
-                        <Link className="collapse-item" to="/admin/borders">
+                        {/* <Link className="collapse-item" to="/admin/borders">
                             Borders
                         </Link>
                         <Link className="collapse-item" to="/admin/animations">
@@ -101,14 +104,14 @@ const Sidebar = ({ logout }) => {
                         </Link>
                         <Link className="collapse-item" to="/admin/others">
                             Other
-                        </Link>
+                        </Link> */}
                     </div>
                 </div>
             </li>
 
             <hr className="sidebar-divider" />
 
-            <div className="sidebar-heading">Addons</div>
+            {/* <div className="sidebar-heading">Addons</div>
 
             <li className="nav-item">
                 <Link
@@ -163,9 +166,9 @@ const Sidebar = ({ logout }) => {
                     <i className="fas fa-fw fa-table"></i>
                     <span>Tables</span>
                 </Link>
-            </li> */}
+            </li>
 
-            <hr className="sidebar-divider d-none d-md-block" />
+            <hr className="sidebar-divider d-none d-md-block" /> */}
 
             <div className="text-center d-none d-md-inline">
                 <button
