@@ -155,7 +155,7 @@ const Login = ({
                                     <div>
                                         <h2>Sign up</h2>
                                         <p>
-                                            Haven't reigistered yet? Register as
+                                            Haven't registered yet? Register as
                                             an appellant to file appeal. Please
                                             click below to register.
                                         </p>
