@@ -1,59 +1,30 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
+
+import './Home.css';
 
 const Home = () => {
     return (
-        <div className="bg-primary min-vh-100 d-flex flex-row align-items-center">
-            <div className="container">
-                <div className="row">
-                    <div className="col-sm-6">
-                        <div
-                            className="card"
-                            // style={{
-                            //     backgroundColor: '#575fcf',
-                            //     color: 'white',
-                            // }}
-                        >
-                            <div className="card-body">
-                                <h5 className="card-title">Appellant Login</h5>
-                                <p className="card-text">
-                                    To Create A New Appeal Please Login as an
-                                    Appellant
-                                </p>
-                                <Link
-                                    to="/appellant/login"
-                                    className="btn btn-primary"
-                                >
-                                    Appellant Login
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-sm-6">
-                        <div
-                            className="card"
-                            style={{
-                                backgroundColor: '#05c46b',
-                                color: 'white',
-                            }}
-                        >
-                            <div className="card-body">
-                                <h5 className="card-title">Govt Login</h5>
-                                <p className="card-text">
-                                    For officials Please login
-                                </p>
-                                <Link
-                                    to="/official/login"
-                                    className="btn btn-primary"
-                                >
-                                    Govt Login
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <Fragment>
+            <div class="ripple-background">
+                <div class="circle circle-xxlarge circle-shade1"></div>
+                <div class="circle circle-xlarge circle-shade2"></div>
+                <div class="circle circle-large circle-shade3"></div>
+                <div class="circle circle-mediun circle-shade4"></div>
+                <div class="circle circle-small circle-shade5"></div>
             </div>
-        </div>
+
+            <div class="home-links">
+                <Link to="/appellant/login" class="login-link appellant-link">
+                    <p>Appellant Login</p>
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                </Link>
+                <Link to="/official/login" class="login-link reat-link">
+                    <p>REAT Login</p>
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                </Link>
+            </div>
+        </Fragment>
     );
 };
 
